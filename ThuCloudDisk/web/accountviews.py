@@ -33,7 +33,7 @@ def register_do(request):
         user.save()
         user = authenticate(email = email, password = password)
         auth_login(request,user)
-        return redirect("/home?firstLogin=True")
+        return redirect("/home/files?firstLogin=True")
 def check_email(request):
     email = request.GET['email']
     try:
@@ -45,7 +45,7 @@ def check_email(request):
 @csrf_protect
 def login(request): 
     if request.user.is_authenticated():
-        return redirect('/home')
+        return redirect('/home/files')
     if 'next' in request.GET:
         next = request.GET['next']
     else: next='/'
@@ -65,7 +65,7 @@ def login_do(request):
     if user is not None:
         auth_login(request, user)
         message = '登录成功'
-        return redirect('/home')
+        return redirect('/home/files')
     else:
         message = '用户名或密码不正确'
         return render(request,'accounts/login.html',locals())

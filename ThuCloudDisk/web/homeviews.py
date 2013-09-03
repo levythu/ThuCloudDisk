@@ -10,6 +10,6 @@ from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required 
 
 @login_required(login_url='/login')
-def home(request):
+def files(request):
     user = request.user
-    return render_to_response('home/home.html',locals())
+    return render_to_response('home/files.html',locals())

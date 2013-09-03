@@ -3,13 +3,14 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import password_reset,password_reset_done,password_reset_confirm,password_reset_complete
 from web.accountviews import *
 from web.homeviews import *
+from web.authviews import *
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', login),
-    url(r'^home/',home),
+    url(r'^home/files',files),
     url(r'^login$',login),
     url(r'^login_do$',login_do),
     url(r'^register$',register),
@@ -23,6 +24,7 @@ urlpatterns = patterns('',
                             {'template_name': 'accounts/password_reset_confirm.html','post_reset_redirect':'/password_done'}),
     url(r'^password_done$',password_reset_complete,{'template_name':'accounts/password_reset_complete.html'}),
     url(r'^logout$',logout),
+    
     # Examples:
     # url(r'^$', 'ThuCloudDisk.views.home', name='home'),
     # url(r'^ThuCloudDisk/', include('ThuCloudDisk.foo.urls')),

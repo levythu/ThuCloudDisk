@@ -1,0 +1,45 @@
+{% extends '_base_.html'%}
+{%block body%}
+<div class="fixed_top">
+<div class="navbar navbar-inverse">
+            <div class="navbar-inner">
+              <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target="#nav-collapse-02">
+                </button>
+                <a href="#fakelink" class="brand fui-flat"></a>
+                <div class="nav-collapse collapse" id="nav-collapse-02">
+                <ul class="nav">
+                    <li>
+                        <a href="#fakelink">我的文件</a>
+                    </li>
+                    <li class="active">
+                        <a href="#fakelink">公有资源</a>
+                    </li>
+                </ul>
+                  <ul class="nav pull-right">
+                    <li >
+                      <a href="#fakelink">
+                        <span class="fui-user"></span><span class="hidden-desktop">My Account</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#fakelink">
+                        <span class="fui-mail"></span><span class="hidden-desktop">Messages</span>
+                        <span class="navbar-new">1</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#fakelink">
+                        <span class="fui-gear"></span><span class="hidden-desktop">Settings</span>
+                      </a>
+                    </li>
+                  </ul> <!-- /nav -->
+                </div><!--/.nav-collapse -->
+              </div>
+            </div>
+          </div>
+</div>
+hello {{user.nickname}}
+<a href="/logout">退出</a>
+{%endblock%}
+
