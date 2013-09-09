@@ -1,0 +1,46 @@
+﻿<html>
+<head>
+    <title>权限设置</title>
+</head>
+<body>
+    <p style="color: red;">{{resultInfo}}</p>
+    <p style="color: blue;">bucket相关设置</p>
+    <form action="/publicBucketDo/" method="get">
+    {% csrf_token %}
+        <p>bucket：<input type="text" name="bucket"></p>
+        <input type="submit" value="设为公开">
+    </form>
+    <form action="/publicBucketUndo/" method="get">
+    {% csrf_token %}
+        <p>bucket：<input type="text" name="bucket"></p>
+        <input type="submit" value="取消公开">
+    </form>
+    <br>
+    <br>
+    <p style="color: blue;">object相关设置</p>
+    <form action="/publicObjectDo/" method="get">
+    {% csrf_token %}
+        <p>object：<input type="text" name="object"></p>
+        <input type="submit" value="设为公开">
+    </form>
+    <form action="/publicObjectUndo/" method="get">
+    {% csrf_token %}
+        <p>object：<input type="text" name="object"></p>
+        <input type="submit" value="设为公开">
+    </form>
+    <br>
+    <form action="/shareObjectDo/" method="get">
+    {% csrf_token %}
+        <p>object：<input type="text" name="object"></p>
+        <p>用户邮箱：<input type="text" name="sharerMail"></p>
+        <input type="submit" value="对此用户公开">
+    </form>
+    <form action="/shareObjectUndo/" method="get">
+    {% csrf_token %}
+        <p>object：<input type="text" name="object"></p>
+        <p>用户邮箱：<input type="text" name="sharerMail"></p>
+        <input type="submit" value="取消对此用户公开">
+    </form>
+</body>
+</html>
+</html>

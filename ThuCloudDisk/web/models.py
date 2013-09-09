@@ -79,3 +79,30 @@ class MyUser(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+        
+# share bucket table
+class shareBucket(models.Model):
+    ownerMail = models.CharField(max_length = 50)
+    sharerMail = models.CharField(max_length = 50)
+    bucket = models.CharField(max_length = 50)
+
+# public bucket table
+class publicBucket(models.Model):
+    ownerMail = models.CharField(max_length = 50)
+    bucket = models.CharField(max_length = 50)
+    
+# share object table
+class shareObject(models.Model):
+    ownerMail = models.CharField(max_length = 50)
+    sharerMail = models.CharField(max_length = 50)
+    object = models.CharField(max_length = 200)
+ 
+# public object table
+class publicObject(models.Model):
+    ownerMail = models.CharField(max_length = 50)
+    object = models.CharField(max_length = 200)
+
+# user bucket table
+class userBucket(models.Model):
+    ownerMail = models.CharField(max_length = 50)
+    bucket = models.CharField(max_length = 50)

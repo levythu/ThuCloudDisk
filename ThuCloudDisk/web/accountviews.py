@@ -3,7 +3,8 @@ from django import forms
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate
 from django.contrib.auth import login as auth_login,logout as auth_logout
-from web.models import MyUser
+from web.models import MyUser 
+from web.models import userBucket
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.shortcuts import render_to_response
@@ -30,7 +31,10 @@ def register_do(request):
         return render(request,"accounts/register.html",locals())
     except MyUser.DoesNotExist:
         user = MyUser.objects.create_user(email = email, nickname = nickname, password = password)
-        user.save()
+        user.save() 
+        bucket = 'asdXXXXX'
+        userBucket.objects.create(ownerMail = email, bucket = bucket)
+        
         user = authenticate(email = email, password = password)
         auth_login(request,user)
         return redirect("/home/files?firstLogin=True")
