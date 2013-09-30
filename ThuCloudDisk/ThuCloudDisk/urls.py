@@ -24,14 +24,10 @@ urlpatterns = patterns('',
     url(r'^password_reset_confirm/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',password_reset_confirm,\
                             {'template_name': 'accounts/password_reset_confirm.html','post_reset_redirect':'/password_done'}),
     url(r'^password_done$',password_reset_complete,{'template_name':'accounts/password_reset_complete.html'}),
+    url(r'^get_bucket_name',get_bucket_name),
+    url(r'^build_bucket',build_bucket),
+    url(r'^get_authorization_header',get_authorization_header),
     url(r'^logout$',logout),
-    url(r'^permission$',changePermission),
-    url(r'^publicBucketDo/$', publicBucketDo),
-    url(r'^publicBucketUndo/$', publicBucketUndo),
-    url(r'^publicObjectDo/$', publicObjectDo),
-    url(r'^publicObjectUndo/$', publicObjectUndo),
-    url(r'^shareObjectDo/$', shareObjectDo),
-    url(r'^shareObjectUndo/$', shareObjectUndo),
     
     # Examples:
     # url(r'^$', 'ThuCloudDisk.views.home', name='home'),

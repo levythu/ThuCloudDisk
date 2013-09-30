@@ -97,7 +97,7 @@
         <tbody>
         <tr class="fileinfo">
             <td class="listcheckbox"><input type="checkbox" class="checkboxset"/></td>
-            <td class="listfilename">Mark</td>
+            <td class="listfilename"><img id='testpic'></td>
             <td class="filecontrol"><a href="#">共享</a><a href="#">删除</a><a href="#">下载</a><a href="#">重命名</a></td>
             <td class="listsize">Otto</td>
             <td class="listdate">@mdo</td>
@@ -129,14 +129,12 @@
     <script type="text/javascript">
 
         $(document).ready(function(){
-            ini_oss('xiaoh16@gmail.com');
             $('.hash-changer').bind('click', function() {
                 var hash = $(this).attr('href');
                 //do whatever you need with the hash
                 hashchanged(hash);
             });
 
-            
             $("#checkboxcontrol").click(function(){
                 if($(this).prop('checked')==true){
                     $(".checkboxset").each(function(){
@@ -149,7 +147,9 @@
                     })
                 }
             })
-            });
+            get_host_list();
+        });
     </script>
+
     {%endblock%}
 

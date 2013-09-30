@@ -80,21 +80,12 @@ class MyUser(AbstractBaseUser):
         # Simplest possible answer: All admins are staff
         return self.is_admin
         
-# share bucket table
-class shareBucket(models.Model):
-    ownerMail = models.CharField(max_length = 50)
-    sharerMail = models.CharField(max_length = 50)
-    bucket = models.CharField(max_length = 50)
-
-# public bucket table
-class publicBucket(models.Model):
-    ownerMail = models.CharField(max_length = 50)
-    bucket = models.CharField(max_length = 50)
     
 # share object table
 class shareObject(models.Model):
     ownerMail = models.CharField(max_length = 50)
     sharerMail = models.CharField(max_length = 50)
+    parentObject = models.CharField(max_length=200)
     object = models.CharField(max_length = 200)
  
 # public object table
