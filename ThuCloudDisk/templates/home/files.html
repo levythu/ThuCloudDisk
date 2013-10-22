@@ -63,11 +63,6 @@
     <div id="overallcontrol" class="container"> 
     <div class="span8">
         <div id="filelevel">
-            <a href="#path=/" class="hash-changer">全部文件</a>
-            <span class="gray">&nbsp;&gt;&nbsp;</span>
-            <a href="#path=/文件夹1/" class="hash-changer">文件夹1</a>
-            <span  class="gray">&nbsp;&gt;&nbsp;</span>
-            <a href="#path=/文件夹1/文件夹2" class="hash-changer">文件夹2</a>
         </div>
         <div id="uploadcontrol" class="pull-right">
             <button class="btn btn-primary btn-sm">上传</button>
@@ -93,48 +88,25 @@
 {%endblock%}
 {%block content%}
 <div id="filelist" class="container">
-    <table class="table table-hover">
-        <tbody>
-        <tr class="fileinfo">
-            <td class="listcheckbox"><input type="checkbox" class="checkboxset"/></td>
-            <td class="listfilename"><img id='testpic'></td>
-            <td class="filecontrol"><a href="#">共享</a><a href="#">删除</a><a href="#">下载</a><a href="#">重命名</a></td>
-            <td class="listsize">Otto</td>
-            <td class="listdate">@mdo</td>
-          </tr>
-          
-        <tr class="fileinfo">
-            <td class="listcheckbox"><input type="checkbox" class="checkboxset"/></td>
-            <td class="listfilename">Mark</td>
-            <td class="filecontrol"><a href="#">共享</a><a href="#">删除</a><a href="#">下载</a><a href="#">重命名</a></td>
-            <td class="listsize">Otto</td>
-            <td class="listdate">@mdo</td>
-          </tr>
-          
-        <tr class="fileinfo">
-            <td class="listcheckbox"><input type="checkbox" class="checkboxset"/></td>
-            <td class="listfilename">Mark</td>
-            <td class="filecontrol"><a href="#">共享</a><a href="#">删除</a><a href="#">下载</a><a href="#">重命名</a></td>
-            <td class="listsize">Otto</td>
-            <td class="listdate">@mdo</td>
-          </tr>
+    <table class="table table-hover" id="filetable">
+        <tbody id='filebody'>
+        
         </tbody>
     </table>
 </div>
+<div id="download_list"></div>
 {%endblock%}
     {%block js%}
     <script type="text/javascript" src="/static/js/base64.js"></script>
     <script type="text/javascript" src="/static/js/oss.js"></script>
     <script type="text/javascript" src="/static/js/file.js"></script>
     <script type="text/javascript">
-
         $(document).ready(function(){
             $('.hash-changer').bind('click', function() {
                 var hash = $(this).attr('href');
-                //do whatever you need with the hash
+                
                 hashchanged(hash);
             });
-
             $("#checkboxcontrol").click(function(){
                 if($(this).prop('checked')==true){
                     $(".checkboxset").each(function(){
@@ -147,7 +119,7 @@
                     })
                 }
             })
-            get_host_list();
+            hashchanged(location.hash)
         });
     </script>
 

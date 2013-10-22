@@ -10,48 +10,64 @@ from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 import time
-import json
-import base64
-import hmac
-import sha
-import urllib
-
+import hashlib
 import re
-SELF_DEFINE_HEADER_PREFIX = "x-oss-"
-def build_bucket(request):
-    user_email = request.user.email
-    try:
-        bucket =  userBucket.objects.get(ownerMail = user_email)
-    except Exception as err:
-        bucket = userBucket(ownerMail=user_email,bucket='testbucket')
-        bucket.save()
-    return HttpResponse('yes')
-#get the user bucket for the user
-def get_bucket_name(request):
-    user_email = request.user.email
+import json
+from xml.dom import minidom
 
-    try:
-        bucket =  userBucket.objects.get(ownerMail = user_email)
-        return HttpResponse(bucket.bucket)
-    except Exception as err:
-        print(err)
-        return HttpResponse('')
-    
-#return authorization header include access_key_id and signature   
-def get_authorization_header(request):
-    #bucket_name = request.POST['bucket_name'] # example-bucket
-    object = request.GET['object']
-    bucket = request.GET['bucket']
-    method = request.GET['method']
-    content_md5 = request.GET['content_md5']
+from web.oss.oss_api import *
+from web.oss.oss_xml_handler import *
+HOST="oss.aliyuncs.com"
+ACCESS_ID = "eNHTL5wHM8z4iPah"
+SECRET_ACCESS_KEY = "wNJUSWBJPdQOWYHVMBA2eqx5Uhnswd"
+TIMEOUT = 600
+oss = OssAPI(HOST,ACCESS_ID,SECRET_ACCESS_KEY)
+
+def sign_url(request):
+    user_email = request.user.email
+    method='GET'
+    bucket=request.GET['bucket']
+    object=request.GET['object']
+    headers = {}
+    headers['Content-MD5'] = request.GET['Content_MD5']
+    headers['Content-Type'] = request.GET['Content_Type']
     userPermission = user_has_permisson_to_object(request.user.email,bucket,object)
     if(userPermission == 'noPermission'):
         return HttpResponse(json.dumps({'permission':userPermission}))
-    access_key = get_access_key_secret()
+    url = "http://"+ bucket + "." + HOST  + "/"+object
+    resource = "/" + bucket + "/" + object
+    url_with_auth = oss.sign_url_auth_with_expire_time(method, url, headers, resource, TIMEOUT)
+    return HttpResponse(json.dumps({'permission':userPermission,'url_with_auth':url_with_auth}))
+#build a bucket for the user when a new user register   
+#todo better：to prevent the conflict bucket name, re generate a new bucket name after 1s
+def build_bucket(user):
+    user_email = user.email
+    try:
+        local_bucket =  userBucket.objects.get(ownerMail = user_email)
+    except Exception as err:
+        acl = 'private'
+        headers = {}
+        new_bucket = user.id + '--'+ time.strftime("%Y-%b-%d%H-%M-%S").lower()
+        hashed_bucket = hashlib.new("md5",new_bucket).hexdigest()
+        res = oss.put_bucket(hashed_bucket, acl, headers)
+        if (res.status / 100) == 2:
+            local_bucket = userBucket(ownerMail=user_email,bucket=new_bucket)
+            local_bucket.save()
+        else:
+            print "put bucket ", bucket, "ERROR"
+            time.spleep(1)
+            build_bucket(user) 
+            return False
+    return True
+#get the user bucket for the user
+def get_bucket_name(email):
+    try:
+        bucket =  userBucket.objects.get(ownerMail = email)
+        return bucket.bucket
+    except Exception as err:
+        return False
     
-    sign_header = generate_signature(access_key,bucket,object,method,content_md5)
-    header = json.dumps({'Expires':sign_header['Expires'],'Signature':sign_header['Signature'],'OSSAccessKeyId':sign_header['OSSAccessKeyId'],'permission':userPermission})
-    return HttpResponse(header)
+
 def belong_to(childObject,parentObject):
     pattern = re.compile(r'^'+parentObject);
     if(pattern.match(childObject)):
@@ -77,93 +93,95 @@ def user_has_permisson_to_object(user_email,bucket,object):
     except Exception as err:
         print(err)
     return 'noPermission'
-def generate_signature(access_key,bucket,object,method,content_md5):
-    return sign_url_auth_with_expire_time(access_key,method,'/'+bucket+'/'+object)
-    
-#private function
-#get the access_key_id and access_key_secret by the bucket name
-def get_access_key_secret(bucket=None):
-    access_key = {'id':'eNHTL5wHM8z4iPah','secret':'wNJUSWBJPdQOWYHVMBA2eqx5Uhnswd'}
-    return access_key
-def sign_url_auth_with_expire_time(access_key, method, resource="/", timeout=300, headers=None, params=None):
-    '''
-    Create the authorization for OSS based on the input method, url, body and headers
-    :type method: string
-    :param method: one of PUT, GET, DELETE, HEAD
-
-    :type url: string
-    :param:HTTP address of bucket or object, eg: http://HOST/bucket/object
-
-    :type headers: dict
-    :param: HTTP header
-
-    :type resource: string
-    :param:path of bucket or object, eg: /bucket/ or /bucket/object
-
-    :type timeout: int
-    :param
-
-    Returns:
-        signature url.
-    '''
-    if not headers:
-        headers = {}
-    if not params:
-        params = {}
-    send_time = str(int(time.time()) + timeout)
-    headers['Date'] = send_time
-    headers['Content-MD5'] = ''
-    headers['Content-Type']=''
-    auth_value = get_assign(access_key['secret'], method, headers, resource)
-    params["OSSAccessKeyId"] = access_key['id']
-    params["Expires"] = str(send_time)
-    params["Signature"] = auth_value
-    return params
-def get_assign(secret_access_key, method, headers = None, resource="/", result = None):
-    '''
-    Create the authorization for OSS based on header input.
-    You should put it into "Authorization" parameter of header.
-    '''
-    if not headers:
-        headers = {}
-    if not result:
-        result = []
-    content_md5 = ""
-    content_type = ""
-    date = ""
-    canonicalized_oss_headers = ""
-    content_md5 = headers['Content-MD5']
-    content_type = headers['Content-Type']
-    date = headers['Date']
-    canonicalized_resource = resource
-    print canonicalized_resource
-    tmp_headers = _format_header(headers)
-    if len(tmp_headers) > 0:
-        x_header_list = tmp_headers.keys()
-        x_header_list.sort()
-        for k in x_header_list:
-            if k.startswith(SELF_DEFINE_HEADER_PREFIX):
-                canonicalized_oss_headers += k + ":" + tmp_headers[k] + "\n"
-    string_to_sign = method + "\n" + content_md5.strip() + "\n" + content_type + "\n" + date + "\n" + canonicalized_oss_headers + canonicalized_resource;
-    result.append(string_to_sign)
-    h = hmac.new(secret_access_key, string_to_sign, sha)
-    return base64.encodestring(h.digest()).strip()
-########## function for Authorization ##########
-def _format_header(headers = None):
-    '''
-    format the headers that self define
-    convert the self define headers to lower.
-    '''
-    if not headers:
-        headers = {}
-    tmp_headers = {}
-    for k in headers.keys():
-        if isinstance(headers[k], unicode):
-            headers[k] = headers[k].encode('utf-8')
-
-        if k.lower().startswith(SELF_DEFINE_HEADER_PREFIX):
-            k_lower = k.lower()
-            tmp_headers[k_lower] = headers[k]
-        else:
-            tmp_headers[k] = headers[k]
-    return tmp_headers
+#list a user's bucket
+def list_bucket(request):
+    user_email = request.user.email
+    bucket = get_bucket_name(user_email)
+    if(bucket):
+        object=''
+        marker = ''
+        delimiter = '/'
+        res = oss.get_bucket(bucket,object,marker,delimiter)
+        if (res.status / 100) == 2:
+            xml_string = res.read()
+            xml = minidom.parseString(xml_string)
+            bucket_name = get_tag_text(xml,'Name')
+            prefix = get_tag_text(xml,'Prefix')
+            contents = xml.getElementsByTagName('Contents')
+            content_list = []
+            for c in contents:
+                content_list.append(Content(c))
+            object_list = []
+            for c in content_list:
+                url = "http://"+ bucket_name + "." + HOST  + "/" + c.key
+                resource = "/" + bucket_name +"/" + c.key
+                headers={}
+                headers['Content-MD5'] = ''
+                headers['Content-Type']=''
+                url_with_auth = oss.sign_url_auth_with_expire_time('GET', url, headers, resource, TIMEOUT)
+                object_list.append({'object_name':c.key,'last_modified':c.last_modified,'size':c.size,'bucket_name':bucket_name,'prefix':prefix,'url_with_auth':url_with_auth})
+            CommonPrefixes = xml.getElementsByTagName('CommonPrefixes')
+            if len(CommonPrefixes) > 0:
+                folders = CommonPrefixes[0].getElementsByTagName('Prefix')
+                for f in folders:
+                    folder_name = f.childNodes[0].data
+                    folder = oss.get_object(bucket,folder_name)
+                    if (res.status / 100) == 2:
+                        folder_headers = folder.getheaders()
+                        folder_info = {}
+                        for h in folder_headers:
+                            folder_info[h[0]] = h[1]
+                        object_list.append({'object_name':folder_name,'last_modified':folder_info['last-modified'],'size':0,'bucket_name':bucket_name,'prefix':'','url_with_auth':''})
+            return HttpResponse(json.dumps(object_list))
+    return HttpResponse(False)
+def list_object(request):
+    bucket = request.GET['bucket']
+    object = request.GET['object']
+    userPermission = user_has_permisson_to_object(request.user.email,bucket,object)
+    if(userPermission=="noPermission"):
+        return HttpResponse(json.dumps({'permission':userPermission}))
+    marker = ''
+    delimiter = '/'
+    res = oss.get_bucket(bucket,object,marker,delimiter)
+    if (res.status / 100) == 2:
+        xml_string = res.read()
+        xml = minidom.parseString(xml_string)
+        bucket_name = get_tag_text(xml,'Name')
+        prefix = get_tag_text(xml,'Prefix')
+        contents = xml.getElementsByTagName('Contents')
+        content_list = []
+        for c in contents:
+            content_list.append(Content(c))
+        object_list = []
+        for c in content_list:
+            url = "http://"+ bucket_name + "." + HOST  + "/" + c.key
+            resource = "/" + bucket_name +"/" + c.key
+            headers={}
+            headers['Content-MD5'] = ''
+            headers['Content-Type']=''
+            url_with_auth = oss.sign_url_auth_with_expire_time('GET', url, headers, resource, TIMEOUT)
+            object_list.append({'object_name':c.key,'last_modified':c.last_modified,'size':c.size,'bucket_name':bucket_name,'prefix':prefix,'url_with_auth':url_with_auth})
+        CommonPrefixes = xml.getElementsByTagName('CommonPrefixes')
+        if len(CommonPrefixes) > 0:
+            folders = CommonPrefixes[0].getElementsByTagName('Prefix')
+            for f in folders:
+                folder_name = f.childNodes[0].data
+                folder = oss.get_object(bucket,folder_name)
+                if (res.status / 100) == 2:
+                    folder_headers = folder.getheaders()
+                    folder_info = {}
+                    for h in folder_headers:
+                        folder_info[h[0]] = h[1]
+                    object_list.append({'object_name':folder_name,'last_modified':folder_info['last-modified'],'size':0,'bucket_name':bucket_name,'prefix':'','url_with_auth':''})    
+        return HttpResponse(json.dumps(object_list))    
+    return HttpResponse(False)
+def download_file(request):
+    bucket = request.GET['request']
+    object = request.GET['object']
+    filename = request.GET['filename']
+    headers = {}
+    res = oss.get_object_to_file(bucket, object, filename, headers)
+    if (res.status / 100) == 2:
+        print "get_object_to_file OK"
+    else:
+        print "get_object_to_file ERROR"
