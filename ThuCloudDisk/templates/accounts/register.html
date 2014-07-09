@@ -1,0 +1,87 @@
+{%extends '_sticky_navbar_footer.html'%}
+{%block css_sticky%}
+<link href="/static/css/register.css" rel="stylesheet">
+{%endblock%}
+{%block content%}
+ <form action="{% url 'web.accountviews.register_do' %}" method='POST' autocomplete="off" class="form-horizontal form-register" onsubmit="return validate()" role="form">
+  {% csrf_token %}
+  {% autoescape on %}
+    <div class="form-group">  
+        <!--[if lte IE 9]> <label>邮箱</label><![endif]-->    
+        <input class="form-control" type="email" name="email" value="{%if not emailExist %}{%if email%}{{email}}{%endif%}{%endif%}" id="email" placeholder='邮箱' required/>
+        {%if emailExist%}<span>{{email}}已经注册,直接 <a href="/login?email={{email}}">登录</a></span>{%endif%}
+        <span class="help-block" id="email_error"></span>
+    </div>
+    <div class="form-group">    
+        <!--[if lte IE 9]> <label>昵称</label><![endif]-->    
+         <input class="form-control" type="text" name="nickname" id="nickname" value="{%if nickname%}{{nickname}}{%endif%}" placeholder='昵称' required/>
+         <span class="help-block" id="nickname_error"></span>
+    </div>
+    <div class="form-group">
+        <!--[if lte IE 9]> <label>密码</label><![endif]-->    
+        <input class="form-control" type="password" name="password" id="password" value="{% if password%}{{password}}{%endif%}"  placeholder='密码' required/>
+        <span class="help-block" id="password_error"></span>
+    </div>
+    <div class="form-group">
+        <!--[if lte IE 9]> <label>确认密码</label><![endif]-->    
+        <input class="form-control" type="password" name="password_confirm" value="{%if password_confirm%}{{password_confirm}}{%endif%}" id="password_confirm" placeholder='确认密码' required/>
+        <span class="help-block" id="confirm_error"></span>
+        <span class="help-block" id="password_confirm_error"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="注册" class="btn btn-primary btn-block"/>
+    </div>
+    <div class="form-group">
+        已经有账号？点击<a href='/login'>登录</a>
+    </div>
+ {% endautoescape %}
+  </form>
+  {%endblock%}
+  
+  {%block js%}
+  <script type="text/javascript">
+        function validate(){
+            email = $("#email").val()
+            nickname = $("#nickname").val()
+            pass1 = $("#password").val()
+            pass2 = $("#password_confirm").val()
+            if(isNull('email','邮箱地址')||isNull('nickname','昵称')||isNull('password','密码')||isNull('password_confirm','密码确认'))
+                return false;
+            if(!isEmail(email)){
+                $("#email").val('');
+                $("#email").focus();
+                $("#email_error").css('display','block');
+                $("#email_error").html('请填写正确的邮箱')
+                return false;
+            }
+            if(pass1 != pass2){
+                $("#password_confirm").val('');
+                $("#password_confirm").focus();
+                $("#confirm_error").css('display','block');
+                $("#confirm_error").html("两次输入的密码不一致")
+                return false
+            }
+            return true
+        }
+        function isNull(field,txt){
+            if($("#"+field).val()==null || $("#"+field).val()==''){
+                $("#"+field).focus();
+                $("#"+field+"_error").css('display','block');
+                $("#"+field+"_error").html(txt+'不能为空')
+                return true;
+            }
+            return false;
+        }
+        function isEmail(str){
+            var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+            return reg.test(str);
+        }
+        $('#password_confirm').bind('input propertychange', function(){
+            pass1 = $("#password").val()
+            pass2 = $("#password_confirm").val()
+            if(pass1 == pass2){
+                $("#confirm_error").css('display','none');
+            }
+        });
+  </script>
+{%endblock%}

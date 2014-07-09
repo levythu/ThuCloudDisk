@@ -1,0 +1,34 @@
+body{
+    padding:0;
+}
+.logo_48_48{
+    background: url(../imgs/logos/cloud_grey_48.png);
+    width:48px;
+    height:48px;
+}
+.logo_48_48:hover{
+    background: url(../imgs/logos/cloud_grey_48_hover.png);
+}
+.logo_48_196_hidden_hover{
+    background: url(../imgs/logos/cloud_long_hover.png);
+    display:none;
+}
+.logo_48_196{
+   background: url(../imgs/logos/cloud_long.png);
+    width:196px;
+    height:48px;
+    -webkit-transition: background ease-in-out 0.15s;
+    transition: background ease-in-out 0.15s;
+}
+.logo_48_196:hover{
+    background: url(../imgs/logos/cloud_long_hover.png);
+}
+.text-center{
+text-align:center;
+}
+a{
+    text-decoration:none !important;
+}
+.help-block{
+    display:none;
+}

@@ -1,0 +1,24 @@
+.loginform{
+width:256px;
+float:left;
+}
+.loginform .control-group{
+float:left;
+}
+.loginform input[type="text"],input[type="password"],input[type="email"]{
+width:192px !important;
+}
+.loginform input[type="submit"]{
+width:250px !important;
+}
+.loginform label{
+width:110px;
+position:relative;
+float:left;
+}
+#top-varbar .navbar-inner{
+-webkit-border-radius: 0px;
+-moz-border-radius: 0px;
+border-radius: 0px;
+}
+.logo
