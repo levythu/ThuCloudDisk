@@ -1,6 +1,7 @@
 {%extends '_sticky_navbar_footer.html'%}
 {%block css_sticky%}
 <link href="/static/css/filestyle.css" rel="stylesheet">
+<link href="/static/css/jquery.contextMenu.css" rel="stylesheet">
 {%endblock%}
 {%block header%}
     
@@ -103,7 +104,7 @@
         <h4 class="modal-title" id="downloadModalLabel">下载文件</h4>
       </div>
       <div class="modal-body">
-          <form action="/download_file" method="get">
+          <form action="/download_file" method="get" id="download_window">
               <input type="hidden" id="downloadfilename" name="file_name"/>
               <input type="submit" class="btn btn-primary btn-large" value="下载"/>
           </form>
@@ -123,10 +124,10 @@
         <thead>
           <tr>
             <th class="listcheckbox"></th>
-            <th class="listfilename" ><a href='/home/files?order_by=filename'>文件名</a></th>
+            <th class="listfilename" ><a href='/home/files?order_by=filename&sort_method={% if sort_method == 'desc' %}{{ 'asc' }}{% else %}{{ 'desc' }}{% endif %}'>文件名</a></th>
             <th class="allcontrol">文件操作</th>
-            <th class="listsize"><a href='/home/files?order_by=size'>大小</a></th>
-            <th class="listdate"><a href='/home/files'>修改日期</a></th>
+            <th class="listsize"><a href='/home/files?order_by=size&sort_method={% if sort_method == 'desc' %}{{ 'asc' }}{% else %}{{ 'desc' }}{% endif %}'>大小</a></th>
+            <th class="listdate"><a href='/home/files?order_by=last_modified&sort_method={% if sort_method == 'desc' %}{{ 'asc' }}{% else %}{{ 'desc' }}{% endif %}'>修改日期</a></th>
           </tr>
         </thead>
     <tbody id='filebody'>
@@ -134,7 +135,7 @@
             <tr class='fileinfo'>
                 <td class='listcheckbox'></td>
                 <td class="listfilename"><a onclick="handle_click_file('{{file.name }}')" href="javascript:" data-toggle="modal" data-target="#downloadModal">{{file.name}}</a></td>
-                <td class="filecontrol"><form action="/delete_file" method="post" style="float:left"> {% csrf_token %}<input type="hidden" name="file_name" value="{{file.name}}"/><button class="btn btn-sm btn-default" >删除</button></form><a class="btn btn-sm btn-default rename-file"  href="javascript:;"style="float:left">重命名</a></td>
+                <td class="filecontrol"><form action="/delete_file" method="post" style="float:left"> {% csrf_token %}<input type="hidden" name="file_name" value="{{file.name}}"/></form><a class="delete-file" href="javascript:;" style="float:left">删除</a><a class="rename-file"  href="javascript:;"style="float:left">重命名</a></td>
                 <td class="listsize">{{file.bytes}}bytes</td>
                 <td class="listdate">{{file.last_modified}}</td>
             </tr>
@@ -142,11 +143,38 @@
         </tbody>
     </table>
 </div>
-<div id="download_list"><iframe style="height:0;width:0" id="download_frame"></iframe></div>
+
 {%endblock%}
 {%block js%}
     <script type="text/javascript" src="/static/js/base64.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.contextMenu.js"></script>
+    <script>
+    $(function(){
+    $('#filebody').contextMenu({
+            selector: 'tr',
+            callback: function(key, options) {
+                if (key=='delete'){$(this).children(".filecontrol").children('form').submit()}
+                else if (key=='rename'){
+                     $current_file_name = $(this).children('.listfilename').text()
 
+             $(this).children('.listfilename').html("<form method='get' action='/rename_file'> <input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
+                }
+                else if(key == 'download'){
+                    file_name = $(this).children('.listfilename').text()
+                   $('#downloadfilename').val(file_name);
+                    $("#download_window").submit()
+
+                }
+
+            },
+            items: {
+                "download":{name:'下载'},
+                "delete": {name: "删除"},
+                "rename": {name: "重命名"}
+            }
+        });
+    });
+    </script>
     <script type="text/javascript">
         $(document).ready(function(){
             $('.hash-changer').bind('click', function() {
@@ -167,9 +195,13 @@
             })
           $(".rename-file").bind('click',function(){
              $current_file_name = $(this).parent().parent().children('.listfilename').text()
-             $(this).parent().parent().children('.listfilename').html("<form method='get' action='/rename_file'> <input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
+             $(this).parent().parent().children('.listfilename').html("<form method='get' action='/rename_file'> <input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger' value='提交'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
                 
             })
+          $(".delete-file").bind('click',function(){
+              $(this).parent().children('form').submit()
+
+          })
         });
         function handle_click_file(file_name){
                 $('#downloadModalLabel').html(file_name);

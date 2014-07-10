@@ -8,8 +8,10 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
-from web.swift import *
 from ThuCloudDisk import settings
+if settings.USE_SWIFT:
+    from web.swift import *
+import os
 import json
 import datetime
 
@@ -31,21 +33,21 @@ def files(request):
         files =  os.listdir(user_path)
         for f in files:
             file_list.append({'name':f,'bytes':os.path.getsize(os.path.join(user_path,f)),'last_modified':datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(user_path,f)))})
+    sort_method = 'asc'
     if not request.GET.has_key('order_by'):
-        print 'no order by'
-        file_list = sorted(file_list,key = lambda k:k['last_modified'])
-        file_list = reversed(file_list)
+        file_list = sorted(file_list,key = lambda k:k['last_modified'],reverse=True)
+
     else:
         order_by = request.GET['order_by']
-        print order_by
         if order_by == 'filename':
-            print 'filename'
-            file_list = sorted(file_list,key = lambda k:k['name']) 
+            file_list = sorted(file_list,key = lambda k:k['name'])
         elif order_by == 'size':
-            print 'size'
             file_list = sorted(file_list,key = lambda k:k['bytes'])
         else:
-            print 'last_modified'
-            file_list = sorted(file_list,key = lambda k:k['last_modified'])
-            file_list = reversed(file_list)
+            file_list = sorted(file_list,key = lambda k:k['last_modified'],reverse=True)
+        if request.GET.has_key('sort_method'):
+            sort_method = request.GET['sort_method']
+            if sort_method == 'desc':
+                file_list = reversed(file_list)
+            sort = 'desc'
     return render(request,'home/files.html',locals())

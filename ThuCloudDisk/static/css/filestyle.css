@@ -89,7 +89,7 @@ height:40px;
 .allcontrol a{
 margin: 0 10px;
 }
-.download_window{
-width:1000px;
-height:300px;
+
+.table .listfilename{
+    line-height: 30px;
 }

@@ -25,115 +25,102 @@
     <favorites_list name="ThuCloudDisk" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.7831005">
-      <split-first>
-        <leaf>
-          <file leaf-file-name="homeviews.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/web/homeviews.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="33" column="0" selection-start="1249" selection-end="1249" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="450">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="accountviews.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/web/accountviews.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="44" column="31" selection-start="1524" selection-end="1524" vertical-scroll-proportion="0.0" vertical-offset="439" max-vertical-offset="1350">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/ThuCloudDisk/urls.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="1" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="705">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/web/models.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="96" column="6" selection-start="2690" selection-end="2690" vertical-scroll-proportion="0.0" vertical-offset="604" max-vertical-offset="1515">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="filehandler.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/web/filehandler.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="73" column="28" selection-start="2382" selection-end="2382" vertical-scroll-proportion="0.0" vertical-offset="454" max-vertical-offset="1365">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="base.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file:///usr/local/lib/python2.7/dist-packages/Django-1.5.4-py2.7.egg/django/core/handlers/base.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="114" column="0" selection-start="4779" selection-end="4779" vertical-scroll-proportion="0.0" vertical-offset="1710" max-vertical-offset="4230">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="files.html" pinned="false" current="true" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/templates/home/files.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="136" column="197" selection-start="5576" selection-end="5576" vertical-scroll-proportion="0.7451456" vertical-offset="1426" max-vertical-offset="2745">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="filestyle.css" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/static/css/filestyle.css">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="5" column="13" selection-start="87" selection-end="87" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="1500">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="swift.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/web/swift.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="40" column="16" selection-start="1671" selection-end="1671" vertical-scroll-proportion="0.0" vertical-offset="615" max-vertical-offset="1350">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file leaf-file-name="settings.py" pinned="false" current="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/ThuCloudDisk/settings.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="181" column="0" selection-start="6114" selection-end="6114" vertical-scroll-proportion="0.0" vertical-offset="1909" max-vertical-offset="2820">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <leaf>
-          <file leaf-file-name="swift.py" pinned="false" current="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/web/swift.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state line="58" column="63" selection-start="2362" selection-end="2362" vertical-scroll-proportion="0.47826087" vertical-offset="385" max-vertical-offset="1305">
-                  <folding />
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-second>
-    </splitter>
+    <leaf>
+      <file leaf-file-name="swift.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/swift.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="40" column="16" selection-start="1671" selection-end="1671" vertical-scroll-proportion="0.0" vertical-offset="600" max-vertical-offset="1305">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="homeviews.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/homeviews.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="43" column="14" selection-start="1608" selection-end="1609" vertical-scroll-proportion="-4.76" vertical-offset="391" max-vertical-offset="750">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="decorators.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python2.7/dist-packages/Django-1.6.3-py2.7.egg/django/utils/decorators.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="99" column="0" selection-start="3656" selection-end="3656" vertical-scroll-proportion="0.0" vertical-offset="1338" max-vertical-offset="1860">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="__init__.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file:///usr/local/lib/python2.7/dist-packages/Django-1.6.3-py2.7.egg/django/shortcuts/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="36" column="0" selection-start="1429" selection-end="1429" vertical-scroll-proportion="0.0" vertical-offset="297" max-vertical-offset="2385">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="accountviews.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/accountviews.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="58" column="0" selection-start="2052" selection-end="2052" vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="1350">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="urls.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/ThuCloudDisk/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="5" column="1" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="675">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="96" column="6" selection-start="2690" selection-end="2690" vertical-scroll-proportion="0.0" vertical-offset="1056" max-vertical-offset="1515">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="filehandler.py" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/filehandler.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="33" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0" vertical-offset="212" max-vertical-offset="1860">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="files.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/home/files.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="197" column="13" selection-start="8629" selection-end="8629" vertical-scroll-proportion="0.52519894" vertical-offset="2757" max-vertical-offset="3300">
+              <folding>
+                <element signature="n#style#0;n#form#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#div#4;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#div#4;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#a#1;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#div#4;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="filestyle.css" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/static/css/filestyle.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="93" column="22" selection-start="1385" selection-end="1385" vertical-scroll-proportion="-11.88" vertical-offset="1098" max-vertical-offset="1500">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -151,20 +138,20 @@
         <option value="$PROJECT_DIR$/templates/_sticky_navbar_footer.html" />
         <option value="$PROJECT_DIR$/web/authviews.py" />
         <option value="$PROJECT_DIR$/web/accountviews.py" />
-        <option value="$PROJECT_DIR$/static/css/filestyle.css" />
-        <option value="$PROJECT_DIR$/ThuCloudDisk/settings.py" />
-        <option value="$PROJECT_DIR$/web/homeviews.py" />
         <option value="$PROJECT_DIR$/web/swift.py" />
         <option value="$PROJECT_DIR$/web/filehandler.py" />
+        <option value="$PROJECT_DIR$/ThuCloudDisk/settings.py" />
+        <option value="$PROJECT_DIR$/web/homeviews.py" />
+        <option value="$PROJECT_DIR$/static/css/filestyle.css" />
         <option value="$PROJECT_DIR$/templates/home/files.html" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1985" />
+    <option name="x" value="65" />
     <option name="y" value="24" />
-    <option name="width" value="1855" />
-    <option name="height" value="1056" />
+    <option name="width" value="1301" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -192,6 +179,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -284,6 +272,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ThuCloudDisk" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="ThuCloudDisk" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="static" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -304,20 +310,29 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="options.splitter.main.proportions" value="0.3" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="options.lastSelected" value="editor.preferences.folding" />
     <property name="recentsLimit" value="5" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../3dprinter/ThuCloudDisk" />
     <property name="restartRequiresConfirmation" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../3dprinter/ThuCloudDisk" />
     <property name="FullScreen" value="false" />
+    <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
       <console-settings />
     </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/static/css" />
+      <recent name="$PROJECT_DIR$/static/js" />
+    </key>
   </component>
   <component name="RunManager" selected="Django server.ThuCloudDisk">
     <configuration default="false" name="storage" type="PythonConfigurationType" factoryName="Python" temporary="true">
@@ -425,27 +440,7 @@
       <option name="PARAMETERS" value="" />
       <method />
     </configuration>
-    <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="ThuCloudDisk" />
-      <option name="launchJavascriptDebuger" value="false" />
-      <option name="port" value="8000" />
-      <option name="host" value="" />
-      <option name="additionalOptions" value="" />
-      <option name="browserUrl" value="" />
-      <option name="runTestServer" value="false" />
-      <option name="runNoReload" value="false" />
-      <option name="useCustomRunCommand" value="false" />
-      <option name="customRunCommand" value="" />
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Unittests">
@@ -471,7 +466,27 @@
       <option name="USE_PARAM" value="false" />
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
+    <configuration default="true" type="Python.DjangoServer" factoryName="Django server">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="ThuCloudDisk" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <option name="port" value="8000" />
+      <option name="host" value="" />
+      <option name="additionalOptions" value="" />
+      <option name="browserUrl" value="" />
+      <option name="runTestServer" value="false" />
+      <option name="runNoReload" value="false" />
+      <option name="useCustomRunCommand" value="false" />
+      <option name="customRunCommand" value="" />
       <method />
     </configuration>
     <configuration default="true" type="tests" factoryName="Doctests">
@@ -579,19 +594,19 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1855" height="1056" extended-state="6" />
-    <editor active="true" />
+    <frame x="65" y="24" width="1301" height="744" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19083558" sideWeight="0.60833335" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39166668" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22982322" sideWeight="0.7446154" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2728249" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25538462" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -619,23 +634,13 @@
           <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="16" />
+      <option name="time" value="19" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/static/js/swift.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="1" selection-start="834" selection-end="834" vertical-scroll-proportion="0.90807176" vertical-offset="0" max-vertical-offset="495" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/home/public.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="16" column="19" selection-start="707" selection-end="707" vertical-scroll-proportion="0.5687204" vertical-offset="0" max-vertical-offset="765" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/Django-1.5.4-py2.7.egg/django/utils/decorators.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="37" selection-start="3119" selection-end="3119" vertical-scroll-proportion="0.0" vertical-offset="152" max-vertical-offset="1770" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/authviews.py">
@@ -645,33 +650,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ThuCloudDisk/urls.py">
+    <entry file="file://$PROJECT_DIR$/ThuCloudDisk/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="1" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
+        <state line="18" column="97" selection-start="479" selection-end="506" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="2820">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/Django-1.5.4-py2.7.egg/django/utils/importlib.py">
+    <entry file="file://$PROJECT_DIR$/static/css/jquery.contextMenu.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="0" selection-start="1178" selection-end="1178" vertical-scroll-proportion="0.64285713" vertical-offset="294" max-vertical-offset="630" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2220" />
       </provider>
     </entry>
-    <entry file="jar:///usr/local/lib/python2.7/dist-packages/python_magic-0.4.6-py2.7.egg!/magic.py">
+    <entry file="file://$PROJECT_DIR$/static/js/jquery.ui.position.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="4185" />
-      </provider>
-    </entry>
-    <entry file="file:///usr/local/lib/python2.7/dist-packages/Django-1.5.4-py2.7.egg/django/core/handlers/base.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="114" column="0" selection-start="4779" selection-end="4779" vertical-scroll-proportion="0.0" vertical-offset="1322" max-vertical-offset="4020">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="7410">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/filestyle.css">
+    <entry file="file://$PROJECT_DIR$/static/js/jquery.contextMenu.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="13" selection-start="87" selection-end="87" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1500">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="25200">
           <folding />
         </state>
       </provider>
@@ -683,9 +683,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/homeviews.py">
+    <entry file="file://$PROJECT_DIR$/ThuCloudDisk/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="0" selection-start="1249" selection-end="1249" vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="630">
+        <state line="5" column="1" selection-start="233" selection-end="233" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="705">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/filehandler.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="33" selection-start="633" selection-end="633" vertical-scroll-proportion="0.0" vertical-offset="212" max-vertical-offset="1860">
           <folding />
         </state>
       </provider>
@@ -699,29 +706,47 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/accountviews.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="44" column="31" selection-start="1524" selection-end="1524" vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="1500">
+        <state line="58" column="0" selection-start="2052" selection-end="2052" vertical-scroll-proportion="0.0" vertical-offset="660" max-vertical-offset="1350">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ThuCloudDisk/settings.py">
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/Django-1.6.3-py2.7.egg/django/shortcuts/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="181" column="0" selection-start="6114" selection-end="6114" vertical-scroll-proportion="0.0" vertical-offset="2461" max-vertical-offset="2820">
+        <state line="36" column="0" selection-start="1429" selection-end="1429" vertical-scroll-proportion="0.0" vertical-offset="297" max-vertical-offset="2385">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/filehandler.py">
+    <entry file="file:///usr/local/lib/python2.7/dist-packages/Django-1.6.3-py2.7.egg/django/utils/decorators.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="73" column="28" selection-start="2382" selection-end="2382" vertical-scroll-proportion="0.0" vertical-offset="454" max-vertical-offset="1365">
+        <state line="99" column="0" selection-start="3656" selection-end="3656" vertical-scroll-proportion="0.0" vertical-offset="1338" max-vertical-offset="1860">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/homeviews.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="43" column="14" selection-start="1608" selection-end="1609" vertical-scroll-proportion="-4.76" vertical-offset="391" max-vertical-offset="750">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/filestyle.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="93" column="22" selection-start="1385" selection-end="1385" vertical-scroll-proportion="-11.88" vertical-offset="1098" max-vertical-offset="1500">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/home/files.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="136" column="197" selection-start="5576" selection-end="5576" vertical-scroll-proportion="0.7451456" vertical-offset="1426" max-vertical-offset="2745">
-          <folding />
+        <state line="197" column="13" selection-start="8629" selection-end="8629" vertical-scroll-proportion="0.52519894" vertical-offset="2757" max-vertical-offset="3300">
+          <folding>
+            <element signature="n#style#0;n#form#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#div#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#div#4;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#1;n#td#2;n#tr#0;n#tbody#0;n#table#0;n#div#4;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
