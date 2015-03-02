@@ -37,6 +37,9 @@ def register_do(request):
         #bucket = email
         #userBucket.objects.create(ownerMail = email, bucket = bucket)
         #create user buffer
+        user = MyUser.objects.create_user(email = email, nickname = nickname, password = password)
+        user.save()
+
         try:
             user_dir = os.path.join(settings.LOCAL_BUFFER_PATH,email)
             if not os.path.exists(user_dir):
@@ -45,8 +48,6 @@ def register_do(request):
                 swift = Swift()
                 swift.connect()
                 swift.put_container(email)
-            user = MyUser.objects.create_user(email = email, nickname = nickname, password = password)
-            user.save()
         except Exception:
             print 'create file error '
         user = authenticate(email = email, password = password)

@@ -14,6 +14,9 @@ if settings.USE_SWIFT:
 import os
 import json
 import datetime
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 @login_required(login_url='/login')
 @csrf_protect
@@ -32,6 +35,9 @@ def files(request):
         file_list=[]
         files =  os.listdir(user_path)
         for f in files:
+            print f
+            #print datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(user_path,f)))
+            print os.path.getsize(os.path.join(user_path,f))
             file_list.append({'name':f,'bytes':os.path.getsize(os.path.join(user_path,f)),'last_modified':datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(user_path,f)))})
     sort_method = 'asc'
     if not request.GET.has_key('order_by'):
