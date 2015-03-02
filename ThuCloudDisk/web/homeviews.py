@@ -35,9 +35,8 @@ def files(request):
         file_list=[]
         files =  os.listdir(user_path)
         for f in files:
+            print user_path
             print f
-            #print datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(user_path,f)))
-            print os.path.getsize(os.path.join(user_path,f))
             file_list.append({'name':f,'bytes':os.path.getsize(os.path.join(user_path,f)),'last_modified':datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(user_path,f)))})
     sort_method = 'asc'
     if not request.GET.has_key('order_by'):
