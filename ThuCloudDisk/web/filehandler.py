@@ -34,7 +34,7 @@ def handle_uploaded_file(email,f):
 
     root_path = settings.LOCAL_BUFFER_PATH
     file_path = os.path.join(root_path,email,str(f))
-
+    file_path = file_path.encode('utf-8')
     if os.path.exists(file_path):
         basename = os.path.splitext(file_path)[0]
         basename = basename + '_'+ get_timestamp()
