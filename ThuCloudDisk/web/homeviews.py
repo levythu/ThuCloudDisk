@@ -1,4 +1,4 @@
-# This Python file uses the following encoding: utf-8
+# -*- coding: utf-8 -*-
 from django import forms
 from django.shortcuts import redirect
 from django.contrib.auth import authenticate
@@ -36,9 +36,12 @@ def files(request):
         files =  os.listdir(user_path)
         for f in files:
             print f
+            print user_path
             #print datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(user_path,f)))
-            print os.path.getsize(os.path.join(user_path,f))
-            file_list.append({'name':f,'bytes':os.path.getsize(os.path.join(user_path,f)),'last_modified':datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(user_path,f)))})
+            abs_path = os.path.join(user_path,f)
+            abs_path = abs_path.encode('utf-8')
+         
+            file_list.append({'name':f,'bytes':os.path.getsize(abs_path),'last_modified':datetime.datetime.fromtimestamp(os.path.getmtime(abs_path))})
     sort_method = 'asc'
     if not request.GET.has_key('order_by'):
         file_list = sorted(file_list,key = lambda k:k['last_modified'],reverse=True)
