@@ -61,6 +61,7 @@ def download_file(request):
     email = request.user.email
     file_name = request.GET['file_name']
     file_path = os.path.join(settings.LOCAL_BUFFER_PATH,email,file_name)
+    file_path = file_path.encode('utf-8')
     if not os.path.exists(file_path):
         if settings.USE_SWIFT:
             swift = Swift()
