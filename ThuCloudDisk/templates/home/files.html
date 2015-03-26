@@ -2,6 +2,66 @@
 {%block css_sticky%}
 <link href="/static/css/filestyle.css" rel="stylesheet">
 <link href="/static/css/jquery.contextMenu.css" rel="stylesheet">
+    <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+        <script src="/static/js/bit-sync.js"></script>
+        <script>
+            //data变量用来存储 文件的数据
+            var data;
+            var files;
+            //将 文件内容读取到 data变量中
+            function convert() {
+                files = document.getElementById('inputfile').files;
+                file = files[0];
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    //var arrayBuffer = reader.result;
+                    data = e.target.result;
+                    //data = new Uint8Array([1,1]);
+                    var bufferView8 = new Uint8Array(data);
+                    data = bufferView8.buffer.slice(0);
+                    commit("{{user.email}}/"+file.name);
+                }
+
+                reader.readAsArrayBuffer(file);
+            }
+
+        </script>
+        <script>
+            //建立 socket io 连接
+            var socket = io("http://localhost:3000");
+            //客户端提交文件申请，参数为文件名
+            function commit(filename){
+                socket.emit('commit',filename);
+            }
+            //客户端接收到服务器传来的文件checksum，计算patchDoc
+            socket.on('doc', function(doc){
+                sendPatchDoc(doc);
+            });
+            //客户端将patchDoc发送给服务器
+            function sendPatchDoc(doc){
+                var array = $.map(doc, function(value, index) {
+                    return [value];
+                });
+                docView = new Uint8Array(array);
+                //console.log("===== doc view =====")
+                //console.log(docView);
+                docViewBuffer = docView.buffer.slice(0);
+                //console.log(new Uint8Array(docViewBuffer));
+                //console.log(new Uint8Array(data));
+                patchDocument = BSync.createPatchDocument(docViewBuffer, data);
+                //console.log(new Uint8Array(patchDocument));
+                //console.log('send over');
+                socket.emit('patchDoc',patchDocument)
+            }
+            //客户端接受到服务器返回的结果
+            socket.on('result',function(result){
+                console.log(result);window.location.reload(false);
+
+            })
+
+        </script>
 {%endblock%}
 {%block header%}
     
@@ -86,8 +146,11 @@
       <div class="modal-body">
         <form class="form-inline" method="POST" enctype="multipart/form-data" action="/uploadhandler">
                 {% csrf_token %}
-                 <div class="form-group"> <input type="file" name="file" required=""/></div>
+                 <div class="form-group"> <input id="inputfile" type="file" name="file" required=""/></div>
+
+
                 <div class="form-group"> <input type="submit" class="btn btn-primary btn-sm" value="上传"/></div>
+             <div class="form-group"> <a href="javascript:convert()" class="btn btn-success btn-sm" >同步</a></div>
         </form>
       </div>
       <div class="modal-footer">
@@ -115,6 +178,7 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 {%endblock%}
 {%block content%}
 <div id="filelist" class="container" >
@@ -144,6 +208,25 @@
     </table>
 </div>
 
+        <script type="application/javascript">
+            function verifyData(buffer1, buffer2)
+            {
+              var buffer1View8 = new Uint8Array(buffer1);
+              var buffer2View8 = new Uint8Array(buffer2);
+
+              if(buffer1.byteLength != buffer2.byteLength) return false;
+
+              var pass = true;
+              for(var i=0; i<buffer1View8.length; i++)
+                if(buffer1View8[i] != buffer2View8[i])
+                {
+                  pass=false;
+                  break;
+                }
+              return pass;
+            }
+
+        </script>
 {%endblock%}
 {%block js%}
     <script type="text/javascript" src="/static/js/base64.js"></script>
