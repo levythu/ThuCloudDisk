@@ -30,7 +30,7 @@
         </script>
         <script>
             //建立 socket io 连接
-            var socket = io("http://localhost:3000");
+            var socket = io("http://thucloud.com:3000");
             //客户端提交文件申请，参数为文件名
             function commit(filename){
                 socket.emit('commit',filename);
