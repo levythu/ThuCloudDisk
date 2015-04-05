@@ -1,0 +1,118 @@
+
+/usr/local/bin/node:1
+(function (exports, require, module, __filename, __dirname) { ELF
+                                                              ^
+SyntaxError: Unexpected token ILLEGAL
+    at exports.runInThisContext (vm.js:73:16)
+    at Module._compile (module.js:443:25)
+    at Object.Module._extensions..js (module.js:478:10)
+    at Module.load (module.js:355:32)
+    at Function.Module._load (module.js:310:12)
+    at Function.Module.runMain (module.js:501:10)
+    at startup (node.js:129:16)
+    at node.js:814:3
+/usr/local/bin/node:1
+(function (exports, require, module, __filename, __dirname) { ELF
+                                                              ^
+SyntaxError: Unexpected token ILLEGAL
+    at exports.runInThisContext (vm.js:73:16)
+    at Module._compile (module.js:443:25)
+    at Object.Module._extensions..js (module.js:478:10)
+    at Module.load (module.js:355:32)
+    at Function.Module._load (module.js:310:12)
+    at Function.Module.runMain (module.js:501:10)
+    at startup (node.js:129:16)
+    at node.js:814:3
+xiaoh16@gmail.com/testfile
+server origin file length: 13833
+server send doc length: 288
+patche doc length: 68
+server after file length: 13833
+
+/home/thucloud1/ThuCloudDisk/rsync/index.js:55
+              throw 'error opening file: ' + err;
+                                           ^
+error opening file: Error: EACCES, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/xiaoh16@gmail.com/testfile'
+xiaoh16@gmail.com/testfile
+server origin file length: 13833
+server send doc length: 288
+patche doc length: 68
+server after file length: 13833
+file written success
+seminar@thucloud.com/testfile
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/seminar@thucloud.com/testfile'
+server origin file length: 0
+server send doc length: 8
+patche doc length: 13853
+server after file length: 13833
+file written success
+xiaoh16@gmail.com/h_large_NssS_6c83000044581375.jpg
+server origin file length: 49521
+server send doc length: 1008
+patche doc length: 212
+server after file length: 49521
+file written success
+xiaoh16@gmail.com/testfile
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/xiaoh16@gmail.com/testfile'
+server origin file length: 0
+server send doc length: 8
+patche doc length: 13853
+server after file length: 13833
+file written success
+xiaoh16@gmail.com/1375597.log
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/xiaoh16@gmail.com/1375597.log'
+server origin file length: 0
+server send doc length: 8
+patche doc length: 5503
+server after file length: 5483
+file written success
+snowxue1211@gmail.com/伦理.pages
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/snowxue1211@gmail.com/伦理.pages'
+server origin file length: 0
+server send doc length: 8
+patche doc length: 449004
+server after file length: 448984
+file written success
+snowxue1211@gmail.com/h_large_NssS_6c83000044581375.jpg
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/snowxue1211@gmail.com/h_large_NssS_6c83000044581375.jpg'
+server origin file length: 0
+server send doc length: 8
+patche doc length: 49541
+server after file length: 49521
+file written success
+snowxue1211@gmail.com/html5ANDnodejs.key
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/snowxue1211@gmail.com/html5ANDnodejs.key'
+server origin file length: 0
+server send doc length: 8
+patche doc length: 676260
+server after file length: 676240
+file written success
+snowxue1211@gmail.com/工业4.0.key
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/snowxue1211@gmail.com/工业4.0.key'
+server origin file length: 0
+server send doc length: 8
+snowxue1211@gmail.com/testfile
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/snowxue1211@gmail.com/testfile'
+server origin file length: 0
+server send doc length: 8
+patche doc length: 13853
+server after file length: 13833
+file written success
+snowxue1211@gmail.com/testfile
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/snowxue1211@gmail.com/testfile'
+server origin file length: 0
+server send doc length: 8
+patche doc length: 13853
+server after file length: 13833
+file written success
+snowxue1211@gmail.com/h_large_NssS_6c83000044581375.jpg
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/snowxue1211@gmail.com/h_large_NssS_6c83000044581375.jpg'
+server origin file length: 0
+server send doc length: 8
+patche doc length: 49541
+server after file length: 49521
+file written success
+xiaoh16@gmail.com/1.intoduction201492711926660.pdf
+Error getting file data: Error: ENOENT, open '/home/thucloud1/ThuCloudDisk/ThuCloudDisk/media/buffer/xiaoh16@gmail.com/1.intoduction201492711926660.pdf'
+server origin file length: 0
+server send doc length: 8
