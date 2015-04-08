@@ -98,6 +98,7 @@ def delete_file(request):
         swift.delete_object(request.user.email,file_name)
     try:
         buffer_path  = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,file_name)
+        buffer_path = buffer_path.encode('utf-8')
         os.remove(buffer_path)
     except:
         print 'fail to delete'+file_name
