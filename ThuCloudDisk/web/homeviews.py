@@ -23,6 +23,12 @@ sys.setdefaultencoding('utf-8')
 def files(request):
     user = request.user
     file_list = []
+
+    if request.GET.has_key('current_dir'):
+        current_dir= request.GET['current_dir']
+    else:
+        current_dir= ''
+    print current_dir
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
@@ -31,18 +37,21 @@ def files(request):
             file_list.append({'name':f['name'],'last_modified':f['last_modified'],'bytes':f['bytes']})
 
     else:
-        user_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email)
+        user_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir)
         file_list=[]
         files =  os.listdir(user_path)
         for f in files:
-            print f
 
-            print user_path
             #print datetime.datetime.fromtimestamp(os.path.getmtime(os.path.join(user_path,f)))
             abs_path = os.path.join(user_path,f)
             abs_path = abs_path.encode('utf-8')
-         
-            file_list.append({'name':f,'bytes':os.path.getsize(abs_path),'last_modified':datetime.datetime.fromtimestamp(os.path.getmtime(abs_path))})
+            fileType = 'file'
+            this_dir = './'
+            if os.path.isdir(abs_path):
+                fileType = 'folder'
+                this_dir = os.path.join(current_dir,f)
+                this_dir = this_dir.encode('utf-8')
+            file_list.append({'this_dir':this_dir,'filetype':fileType,'name':f,'bytes':os.path.getsize(abs_path),'last_modified':datetime.datetime.fromtimestamp(os.path.getmtime(abs_path))})
 
     sort_method = 'asc'
     if not request.GET.has_key('order_by'):
@@ -61,4 +70,15 @@ def files(request):
             if sort_method == 'desc':
                 file_list = reversed(file_list)
             sort = 'desc'
+    filelevel_list = current_dir.split('/')
+    if '' in filelevel_list:
+        filelevel_list.remove('')
+    final_filelevel_list = []
+    levelname = {}
+    if filelevel_list.__len__() > 0:
+        current_level = ''
+        for level in filelevel_list:
+            current_level += level + '/'
+            final_filelevel_list.append({'href':current_level,'name':level})
+    print final_filelevel_list
     return render(request,'home/files.html',locals())

@@ -30,10 +30,10 @@ def get_timestamp():
     t = t.replace(':','')
     t = t.replace('.','')
     return t
-def handle_uploaded_file(email,f):
+def handle_uploaded_file(email,current_dir,f):
 
     root_path = settings.LOCAL_BUFFER_PATH
-    file_path = os.path.join(root_path,email,str(f))
+    file_path = os.path.join(root_path,email,current_dir,str(f))
     file_path = file_path.encode('utf-8')
     if os.path.exists(file_path):
         basename = os.path.splitext(file_path)[0]
@@ -49,18 +49,22 @@ def handle_uploaded_file(email,f):
     return HttpResponseRedirect('/home/files')
 @csrf_protect
 def uploadhandler(request):
-
+    if request.POST.has_key('current_dir'):
+        current_dir= request.POST['current_dir']
+    else:
+        current_dir= ''
     file = request.FILES['file']
-    handle_uploaded_file(request.user.email,file)
+    handle_uploaded_file(request.user.email,current_dir,file)
 
-    return HttpResponseRedirect('/home/files')
+    return HttpResponseRedirect('/home/files?current_dir='+current_dir)
 
 import urllib
 import mimetypes
 def download_file(request):
     email = request.user.email
     file_name = request.GET['file_name']
-    file_path = os.path.join(settings.LOCAL_BUFFER_PATH,email,file_name)
+    current_dir = request.GET['current_dir']
+    file_path = os.path.join(settings.LOCAL_BUFFER_PATH,email,current_dir,file_name)
     file_path = file_path.encode('utf-8')
     if not os.path.exists(file_path):
         if settings.USE_SWIFT:
@@ -92,29 +96,57 @@ def download_file(request):
 @csrf_protect
 def delete_file(request):
     file_name = request.POST['file_name']
+    current_dir = request.POST['current_dir']
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
         swift.delete_object(request.user.email,file_name)
     try:
-        buffer_path  = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,file_name)
+        buffer_path  = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,file_name)
         buffer_path = buffer_path.encode('utf-8')
         os.remove(buffer_path)
     except:
         print 'fail to delete'+file_name
-    return HttpResponseRedirect('/home/files')
+    return HttpResponseRedirect('/home/files?current_dir='+current_dir)
 
 @csrf_protect
 def rename_file(request):
+
     old_name = request.GET['old_name']
     new_name = request.GET['new_name']
+    if request.GET.has_key('current_dir'):
+        current_dir= request.GET['current_dir']
+    else:
+        current_dir= ''
     #todo swfit rename
     try:
-        buffer_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,old_name)
-        new_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,new_name)
+        print old_name
+        buffer_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,old_name)
+        new_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,new_name)
         print buffer_path
         print new_path
         os.renames(buffer_path,new_path)
     except:
         print 'fail to rename'+old_name
-    return HttpResponseRedirect('/home/files')
+    return HttpResponseRedirect('/home/files?current_dir='+current_dir)
+import zipfile
+@csrf_protect
+def batch_download(request):
+    files = request.GET['files']
+    current_dir = request.GET['current_dir']
+    print files
+    print current_dir
+    email = request.user.email
+    #file_name = request.GET['file_name']
+    file_list = files.split('#')
+    file_list.remove('')
+
+    zipfilename = 'batch_'+get_timestamp()+'.zip';
+    zipfilepath = os.path.join(settings.LOCAL_BUFFER_PATH,'batched',zipfilename)
+    zfile = zipfile.ZipFile(zipfilepath, 'w', compression=zipfile.ZIP_DEFLATED)
+    for file in file_list:
+        file_path = os.path.join(settings.LOCAL_BUFFER_PATH,email,current_dir,file)
+        file_path = file_path.encode('utf-8')
+        zfile.write(file_path)
+    zfile.close()
+    return HttpResponse(zipfilename)

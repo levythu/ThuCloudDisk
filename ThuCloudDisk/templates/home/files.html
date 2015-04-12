@@ -30,7 +30,7 @@
         </script>
         <script>
             //建立 socket io 连接
-            var socket = io("http://thucloud.com:3000");
+            var socket = io("http://127.0.0.1:3000");
             //客户端提交文件申请，参数为文件名
             function commit(filename){
                 socket.emit('commit',filename);
@@ -124,6 +124,11 @@
     <div id="overallcontrol" class="container"> 
     <div class="span8">
         <div id="filelevel">
+
+            <a class="btn btn-default btn-sm" href="?">全部文件</a>
+            {% for level in final_filelevel_list %}
+                <a class="btn btn-default btn-sm" href="?current_dir={{ level.href }}">{{ level.name}}</a>
+            {% endfor %}
         </div>
         <div id="uploadcontrol" class="pull-right">
             <button class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
@@ -148,7 +153,7 @@
                 {% csrf_token %}
                  <div class="form-group"> <input id="inputfile" type="file" name="file" required=""/></div>
 
-
+                <input type="hidden" name="current_dir" value="{{ current_dir }}"/>
                 <div class="form-group"> <input type="submit" class="btn btn-primary btn-sm" value="上传"/></div>
              <div class="form-group"> <a href="javascript:convert()" class="btn btn-success btn-sm" >同步</a></div>
         </form>
@@ -169,6 +174,7 @@
       <div class="modal-body">
           <form action="/download_file" method="get" id="download_window">
               <input type="hidden" id="downloadfilename" name="file_name"/>
+              <input type="hidden" name="current_dir" value="{{ current_dir }}"/>
               <input type="submit" class="btn btn-primary btn-large" value="下载"/>
           </form>
       </div>
@@ -188,18 +194,19 @@
         <thead>
           <tr>
             <th class="listcheckbox"></th>
-            <th class="listfilename" ><a href='/home/files?order_by=filename&sort_method={% if sort_method == 'desc' %}{{ 'asc' }}{% else %}{{ 'desc' }}{% endif %}'>文件名</a></th>
-            <th class="allcontrol">文件操作</th>
-            <th class="listsize"><a href='/home/files?order_by=size&sort_method={% if sort_method == 'desc' %}{{ 'asc' }}{% else %}{{ 'desc' }}{% endif %}'>大小</a></th>
-            <th class="listdate"><a href='/home/files?order_by=last_modified&sort_method={% if sort_method == 'desc' %}{{ 'asc' }}{% else %}{{ 'desc' }}{% endif %}'>修改日期</a></th>
+            <th class="listfilename" ><a href='/home/files?order_by=filename&current_dir={{ current_dir }}&sort_method={% if sort_method == 'desc' %}{{ 'asc' }}{% else %}{{ 'desc' }}{% endif %}'>文件名</a></th>
+            <th class="allcontrol"><span id="operateonfiles">文件操作</span></th>
+            <th class="listsize"><a href='/home/files?order_by=size&current_dir={{ current_dir }}&sort_method={% if sort_method == 'desc' %}{{ 'asc' }}{% else %}{{ 'desc' }}{% endif %}'>大小</a></th>
+            <th class="listdate"><a href='/home/files?order_by=last_modified&current_dir={{ current_dir }}&sort_method={% if sort_method == 'desc' %}{{ 'asc' }}{% else %}{{ 'desc' }}{% endif %}'>修改日期</a></th>
           </tr>
         </thead>
     <tbody id='filebody'>
+
          {%for file in file_list%}
             <tr class='fileinfo'>
-                <td class='listcheckbox'></td>
-                <td class="listfilename"><a onclick="handle_click_file('{{file.name }}')" href="javascript:" data-toggle="modal" data-target="#downloadModal">{{file.name}}</a></td>
-                <td class="filecontrol"><form action="/delete_file" method="post" style="float:left"> {% csrf_token %}<input type="hidden" name="file_name" value="{{file.name}}"/></form><a class="delete-file" href="javascript:;" style="float:left">删除</a><a class="rename-file"  href="javascript:;"style="float:left">重命名</a></td>
+                <td class='listcheckbox'><input type="checkbox" class="checkfile" name="checkedfile" value="{{ file.name }}"></td>
+                <td class="listfilename"><a {% if file.filetype == 'file' %}onclick="handle_click_file('{{file.name }}')" href="javascript:" data-toggle="modal" data-target="#downloadModal"{% else %}href='?current_dir={{ file.this_dir }}'{% endif %} >{% if file.filetype == 'file' %}<span class="glyphicon glyphicon-file" aria-hidden="true" style="position:inherit;margin-right:5px"></span>{% else %}<span class="glyphicon glyphicon-folder-close" aria-hidden="true" style="position:inherit;margin-right:5px"></span>{% endif %}{{file.name}}</a></td>
+                <td class="filecontrol"><form action="/delete_file" method="post" style="float:left"> {% csrf_token %}<input type="hidden" name="file_name" value="{{file.name}}"/><input type="hidden" name="current_dir" value="{{current_dir}}"/></form><a class="delete-file" href="javascript:;" style="float:left">删除</a><a class="rename-file"  href="javascript:;"style="float:left">重命名</a></td>
                 <td class="listsize">{{file.bytes}}bytes</td>
                 <td class="listdate">{{file.last_modified}}</td>
             </tr>
@@ -240,7 +247,7 @@
                 else if (key=='rename'){
                      $current_file_name = $(this).children('.listfilename').text()
 
-             $(this).children('.listfilename').html("<form method='get' action='/rename_file'> <input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
+             $(this).children('.listfilename').html("<form method='get' action='/rename_file'><input type='hidden' name='current_dir' value='{{ current_dir }}'> <input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
                 }
                 else if(key == 'download'){
                     file_name = $(this).children('.listfilename').text()
@@ -251,7 +258,7 @@
 
             },
             items: {
-                "download":{name:'下载'},
+
                 "delete": {name: "删除"},
                 "rename": {name: "重命名"}
             }
@@ -260,6 +267,22 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function(){
+            $(".checkfile").bind('click',function(){
+
+                    var no_checked = true
+                    $(":checkbox:checked").each(function(){
+
+                           if($(this).prop("checked")){
+                               no_checked = false
+                           }
+                    });
+                if(!no_checked){
+                        $("#operateonfiles").html("<a href='javascript:' onclick='batch_download()' >批量下载</a>");
+                    }
+                else{
+                    $("#operateonfiles").html("文件操作");
+                }
+                });
             $('.hash-changer').bind('click', function() {
                 var hash = $(this).attr('href');
                 hashchanged(hash);
@@ -278,10 +301,11 @@
             })
           $(".rename-file").bind('click',function(){
              $current_file_name = $(this).parent().parent().children('.listfilename').text()
-             $(this).parent().parent().children('.listfilename').html("<form method='get' action='/rename_file'> <input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger' value='提交'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
+             $(this).parent().parent().children('.listfilename').html("<form method='get' action='/rename_file'> <input type='hidden' name='current_dir' value='{{ current_dir }}'><input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger' value='提交'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
                 
             })
           $(".delete-file").bind('click',function(){
+
               $(this).parent().children('form').submit()
 
           })
@@ -290,6 +314,24 @@
                 $('#downloadModalLabel').html(file_name);
                 $('#downloadfilename').val(file_name);
         }
+        function batch_download(){
+            var all_files = '';
+             $(":checkbox:checked").each(function(){
+                    console.log($(this).val());
+                         all_files+= $(this).val()+"#";
+             }
+             );
+            console.log(all_files);
+             var url = '/batchDownload'; // 取Form中要提交的链接
+        var param = {}; // 组装发送参数
+        param['files']  = all_files;
+        param['current_dir'] = '{{ current_dir }}';
+      $.get(url, param, function(dom) {
+          location.href = '/media/buffer/batched/'+dom;
+      });
+        }
+
+
 
     </script>
 

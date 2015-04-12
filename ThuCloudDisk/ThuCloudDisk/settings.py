@@ -19,8 +19,8 @@ DATABASES = {
         'NAME': 'ThuCloudDisk',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'root',
-        'PASSWORD': 'thusoftware',
-        'HOST': 'thucloud.com',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+        'PASSWORD': 'Zstbj2013',
+        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     }
 }
