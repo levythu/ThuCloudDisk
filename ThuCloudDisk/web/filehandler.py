@@ -70,6 +70,7 @@ def download_file(request):
         if settings.USE_SWIFT:
             swift = Swift()
             swift.connect()
+            print 'get object to file'
             swift.get_object_to_file(email,file_name)
     type,encoding = mimetypes.guess_type(file_path)
     if type is None:
@@ -150,3 +151,11 @@ def batch_download(request):
         zfile.write(file_path)
     zfile.close()
     return HttpResponse(zipfilename)
+@csrf_protect
+def new_folder(request):
+    new_folder = request.GET['new_folder']
+    current_dir = request.GET['current_dir']
+    folder_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,new_folder)
+    folder_path = folder_path.encode('utf-8')
+    os.mkdir(folder_path)
+    return HttpResponseRedirect('/home/files?current_dir='+current_dir)

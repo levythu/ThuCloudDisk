@@ -161,7 +161,7 @@ LOGGING = {
     }
 }
 
-USE_SWIFT = False
+USE_SWIFT = True
 
 AUTH_USER_MODEL = 'web.MyUser'
 
@@ -173,10 +173,10 @@ EMAIL_USE_TLS = True
 SITE_URL='thucloud.com'
 SITE_NAME='thuclouddisk'
 
-SWIFT_HOST='58.205.208.70:5000'
-SWIFT_URL='58.205.208.70'
+SWIFT_HOST='166.111.81.175:5000'
+SWIFT_URL='166.111.81.175'
 SWIFT_TENANT='demo'
-SWIFT_USER = 'admin'
-SWIFT_SECRET = 'secrete'
+SWIFT_USER = 'demo'
+SWIFT_SECRET = 'DEMO_PASS'
 LOCAL_BUFFER_PATH = os.path.join(ROOT_PATH, 'media/buffer').replace('\\','/')
-OS_OPTIONS={'end_point_type':'internalURL'}
+

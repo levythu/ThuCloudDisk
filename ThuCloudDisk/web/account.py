@@ -30,6 +30,7 @@ class UserCreationForm(forms.ModelForm):
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
         if commit:
+            print user.email
             user.save()
         return user
 class UserChangeForm(forms.ModelForm):

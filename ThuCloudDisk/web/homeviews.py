@@ -28,13 +28,19 @@ def files(request):
         current_dir= request.GET['current_dir']
     else:
         current_dir= ''
-    print current_dir
+
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
         tuple =  swift.list_container(user.email);
+        if tuple == None:
+            swift.put_container(user.email)
+            tuple = swift.list_container(user.email)
+
         for f in tuple[1]:
-            file_list.append({'name':f['name'],'last_modified':f['last_modified'],'bytes':f['bytes']})
+            this_dir = './'
+            fileType = 'file'
+            file_list.append({'this_dir':this_dir,'filetype':fileType,'name':f['name'],'last_modified':f['last_modified'],'bytes':f['bytes']})
 
     else:
         user_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir)
@@ -80,5 +86,5 @@ def files(request):
         for level in filelevel_list:
             current_level += level + '/'
             final_filelevel_list.append({'href':current_level,'name':level})
-    print final_filelevel_list
+
     return render(request,'home/files.html',locals())

@@ -30,7 +30,8 @@
         </script>
         <script>
             //建立 socket io 连接
-            var socket = io("http://127.0.0.1:3000");
+            //var socket = io("http://127.0.0.1:3000");
+            var socket = null
             //客户端提交文件申请，参数为文件名
             function commit(filename){
                 socket.emit('commit',filename);
@@ -124,13 +125,19 @@
     <div id="overallcontrol" class="container"> 
     <div class="span8">
         <div id="filelevel">
-
+            <!--
             <a class="btn btn-default btn-sm" href="?">全部文件</a>
             {% for level in final_filelevel_list %}
                 <a class="btn btn-default btn-sm" href="?current_dir={{ level.href }}">{{ level.name}}</a>
             {% endfor %}
+            -->
         </div>
         <div id="uploadcontrol" class="pull-right">
+            <!--
+            <button class="btn btn-primary" data-toggle="modal" data-target="#newFolderModal">
+                新建文件夹
+            </button>
+            -->
             <button class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
                 上传
             </button>
@@ -164,6 +171,7 @@
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
 <div class="modal fade" id="downloadModal" tabindex="-1" role="dialog" aria-labelledby="downloadModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -176,6 +184,27 @@
               <input type="hidden" id="downloadfilename" name="file_name"/>
               <input type="hidden" name="current_dir" value="{{ current_dir }}"/>
               <input type="submit" class="btn btn-primary btn-large" value="下载"/>
+          </form>
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="btn btn-default" data-dismiss="modal">取消</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+    <div class="modal fade" id="newFolderModal" tabindex="-1" role="dialog" aria-labelledby="newFolderModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="newFolderModalLabel">新建文件夹</h4>
+      </div>
+      <div class="modal-body">
+          <form action="/new_folder" method="get">
+              <input type="hidden" name="current_dir" value="{{ current_dir }}"/>
+              <input type="text" name="new_folder"/>
+              <input type="submit" class="btn btn-primary btn-large" value="新建"/>
           </form>
       </div>
       <div class="modal-footer">
@@ -205,8 +234,23 @@
          {%for file in file_list%}
             <tr class='fileinfo'>
                 <td class='listcheckbox'><input type="checkbox" class="checkfile" name="checkedfile" value="{{ file.name }}"></td>
-                <td class="listfilename"><a {% if file.filetype == 'file' %}onclick="handle_click_file('{{file.name }}')" href="javascript:" data-toggle="modal" data-target="#downloadModal"{% else %}href='?current_dir={{ file.this_dir }}'{% endif %} >{% if file.filetype == 'file' %}<span class="glyphicon glyphicon-file" aria-hidden="true" style="position:inherit;margin-right:5px"></span>{% else %}<span class="glyphicon glyphicon-folder-close" aria-hidden="true" style="position:inherit;margin-right:5px"></span>{% endif %}{{file.name}}</a></td>
-                <td class="filecontrol"><form action="/delete_file" method="post" style="float:left"> {% csrf_token %}<input type="hidden" name="file_name" value="{{file.name}}"/><input type="hidden" name="current_dir" value="{{current_dir}}"/></form><a class="delete-file" href="javascript:;" style="float:left">删除</a><a class="rename-file"  href="javascript:;"style="float:left">重命名</a></td>
+                <td class="listfilename">
+                    <a
+                        {% if file.filetype == 'file' %}
+                            onclick="handle_click_file('{{file.name }}')" href="#"
+                            data-toggle="modal"
+                            data-target="#downloadModal"
+                        {% else %}
+                            href='?current_dir={{ file.this_dir }}'
+                    {% endif %} >
+                        {% if file.filetype == 'file' %}
+                            <span class="glyphicon glyphicon-file" aria-hidden="true" style="position:inherit;margin-right:5px"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-folder-close" aria-hidden="true" style="position:inherit;margin-right:5px"></span>
+                        {% endif %}{{file.name}}
+                    </a>
+                </td>
+                <td class="filecontrol"><form action="/delete_file" method="post" style="float:left"> {% csrf_token %}<input type="hidden" name="file_name" value="{{file.name}}"/><input type="hidden" name="current_dir" value="{{current_dir}}"/></form><a class="delete-file" href="javascript:" style="float:left">删除</a><a class="rename-file"  href="javascript:;"style="float:left">重命名</a></td>
                 <td class="listsize">{{file.bytes}}bytes</td>
                 <td class="listdate">{{file.last_modified}}</td>
             </tr>
