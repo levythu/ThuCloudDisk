@@ -15,14 +15,17 @@ class Swift:
         self.storage_url = auth[0]
         self.http_conn = client.http_connection(self.storage_url)
         self.token = auth[1]
+        print self.storage_url
+        print self.token
 
 
     def list_container(self,container_name,prefix=None,delimiter=None):
 
-        try:
+        if True:#try:
             return client.get_container(self.storage_url,self.token,container_name,prefix=prefix,delimiter=delimiter,http_conn=self.http_conn)
-        except:
-            return None
+
+        #except:
+        #    return None
 
     def put_container(self,container_name):
         if(self.list_container(container_name) == None):
@@ -54,7 +57,13 @@ class Swift:
             return fileSize, fileDate, filepath, filename
         except:
             return False
- 	
+
+    def put_object_of_foler(self,container,prefix,folder):
+        print self.storage_url
+        print container
+        print folder
+        client.put_object(self.storage_url,self.token,container,folder+'/')
+        return True
     def put_object_from_file(self,container,prefix,filepath):
         if True:
             content_length = os.path.getsize(filepath);
@@ -65,6 +74,7 @@ class Swift:
                 object = value
 
             fp = open(filepath,'rb')
+            print filepath
             client.put_object(self.storage_url,self.token,container,object,fp,content_length=content_length,content_type=content_type)
             return True
         #except:
@@ -81,7 +91,9 @@ if __name__ == '__main__':
     #def get_new_file_path(container,object):
     swift = Swift();
     swift.connect();
-    print swift.list_container('demo-container1');
+    print swift.list_container('guaiwolou');
+    swift.put_container('guaiwolou');
+    # print swift.list_container('xiaoh16@gmail.com');
     #print swift.put_container('ThuCloudDisk-container');
     #swift.put_object_from_file('ThuCloudDisk-container',prefix='',filepath='/home/chengls10/Desktop/2')
     #print swift.get_object_to_file('ThuCloudDisk-container','1.py')

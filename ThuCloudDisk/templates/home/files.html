@@ -1,9 +1,11 @@
 {%extends '_sticky_navbar_footer.html'%}
 {%block css_sticky%}
 <link href="/static/css/filestyle.css" rel="stylesheet">
+
 <link href="/static/css/jquery.contextMenu.css" rel="stylesheet">
+    <script src="/static/js/jquery.js"></script>
+    {% if WEB_RSYNC %}
     <script src="/static/js/socket.io-1.3.0.js"></script>
-        <script src="/static/js/jquery.js"></script>
         <script src="/static/js/bit-sync.js"></script>
         <script>
             //data变量用来存储 文件的数据
@@ -28,6 +30,7 @@
             }
 
         </script>
+
         <script>
             //建立 socket io 连接
             //var socket = io("http://127.0.0.1:3000");
@@ -63,6 +66,7 @@
             })
 
         </script>
+    {% endif %}
 {%endblock%}
 {%block header%}
     
@@ -125,23 +129,23 @@
     <div id="overallcontrol" class="container"> 
     <div class="span8">
         <div id="filelevel">
-            <!--
+
             <a class="btn btn-default btn-sm" href="?">全部文件</a>
             {% for level in final_filelevel_list %}
                 <a class="btn btn-default btn-sm" href="?current_dir={{ level.href }}">{{ level.name}}</a>
             {% endfor %}
-            -->
+
         </div>
         <div id="uploadcontrol" class="pull-right">
-            <!--
+
             <button class="btn btn-primary" data-toggle="modal" data-target="#newFolderModal">
                 新建文件夹
             </button>
-            -->
+
             <button class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
                 上传
             </button>
-        <!--    <button class="btn btn-primary btn-sm">新建文件夹</button>-->
+
         </div>
      </div>
     </div>
@@ -162,7 +166,9 @@
 
                 <input type="hidden" name="current_dir" value="{{ current_dir }}"/>
                 <div class="form-group"> <input type="submit" class="btn btn-primary btn-sm" value="上传"/></div>
+            {% if WEB_RSYNC %}
              <div class="form-group"> <a href="javascript:convert()" class="btn btn-success btn-sm" >同步</a></div>
+            {% endif %}
         </form>
       </div>
       <div class="modal-footer">
@@ -242,12 +248,14 @@
                             data-target="#downloadModal"
                         {% else %}
                             href='?current_dir={{ file.this_dir }}'
-                    {% endif %} >
+
+                    {% endif %} class="file-name-wrapper" >
                         {% if file.filetype == 'file' %}
                             <span class="glyphicon glyphicon-file" aria-hidden="true" style="position:inherit;margin-right:5px"></span>
                         {% else %}
                             <span class="glyphicon glyphicon-folder-close" aria-hidden="true" style="position:inherit;margin-right:5px"></span>
-                        {% endif %}{{file.name}}
+                        {% endif %}
+                            <span class="file-name">{{file.name}}</span>
                     </a>
                 </td>
                 <td class="filecontrol"><form action="/delete_file" method="post" style="float:left"> {% csrf_token %}<input type="hidden" name="file_name" value="{{file.name}}"/><input type="hidden" name="current_dir" value="{{current_dir}}"/></form><a class="delete-file" href="javascript:" style="float:left">删除</a><a class="rename-file"  href="javascript:;"style="float:left">重命名</a></td>
@@ -281,6 +289,7 @@
 {%endblock%}
 {%block js%}
     <script type="text/javascript" src="/static/js/base64.js"></script>
+    <!--
     <script type="text/javascript" src="/static/js/jquery.contextMenu.js"></script>
     <script>
     $(function(){
@@ -289,7 +298,7 @@
             callback: function(key, options) {
                 if (key=='delete'){$(this).children(".filecontrol").children('form').submit()}
                 else if (key=='rename'){
-                     $current_file_name = $(this).children('.listfilename').text()
+                     $current_file_name = $(this).contents('.listfilename').contents('.file-name').text()
 
              $(this).children('.listfilename').html("<form method='get' action='/rename_file'><input type='hidden' name='current_dir' value='{{ current_dir }}'> <input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
                 }
@@ -308,7 +317,7 @@
             }
         });
     });
-    </script>
+    </script>-->
     <script type="text/javascript">
         $(document).ready(function(){
             $(".checkfile").bind('click',function(){
@@ -344,9 +353,10 @@
                 }
             })
           $(".rename-file").bind('click',function(){
-             $current_file_name = $(this).parent().parent().children('.listfilename').text()
+
+             $current_file_name = $(this).parent().parent().contents('.listfilename').contents(".file-name-wrapper").contents(".file-name").text()
              $(this).parent().parent().children('.listfilename').html("<form method='get' action='/rename_file'> <input type='hidden' name='current_dir' value='{{ current_dir }}'><input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger' value='提交'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
-                
+
             })
           $(".delete-file").bind('click',function(){
 

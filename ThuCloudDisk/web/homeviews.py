@@ -23,7 +23,7 @@ sys.setdefaultencoding('utf-8')
 def files(request):
     user = request.user
     file_list = []
-
+    WEB_RSYNC = settings.WEB_RSYNC
     if request.GET.has_key('current_dir'):
         current_dir= request.GET['current_dir']
     else:

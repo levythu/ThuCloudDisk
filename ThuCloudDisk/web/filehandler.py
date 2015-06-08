@@ -1,5 +1,4 @@
 # This Python file uses the following encoding: utf-8
-
 import sys
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -94,6 +93,7 @@ def download_file(request):
         filename_header = 'filename*=UTF-8\'\'%s' % urllib.quote(file_name.encode('utf-8'))
     response['Content-Disposition'] = 'attachement; '+ filename_header
     return response
+import shutil
 @csrf_protect
 def delete_file(request):
     file_name = request.POST['file_name']
@@ -105,7 +105,10 @@ def delete_file(request):
     try:
         buffer_path  = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,file_name)
         buffer_path = buffer_path.encode('utf-8')
-        os.remove(buffer_path)
+        if os.path.isdir(buffer_path):
+            shutil.rmtree(buffer_path)
+        else:
+            os.remove(buffer_path)
     except:
         print 'fail to delete'+file_name
     return HttpResponseRedirect('/home/files?current_dir='+current_dir)
@@ -157,5 +160,12 @@ def new_folder(request):
     current_dir = request.GET['current_dir']
     folder_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,new_folder)
     folder_path = folder_path.encode('utf-8')
-    os.mkdir(folder_path)
+    try:
+        os.mkdir(folder_path)
+        if settings.USE_SWIFT:
+            swift = Swift()
+            swift.connect()
+            swift.put_object_of_foler(container = request.user.email,prefix = '',folder=os.path.join(current_dir,new_folder))
+    except:
+        print 'fail to create '+new_folder
     return HttpResponseRedirect('/home/files?current_dir='+current_dir)

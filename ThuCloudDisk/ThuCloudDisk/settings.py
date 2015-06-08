@@ -126,7 +126,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'web',
@@ -161,7 +161,8 @@ LOGGING = {
     }
 }
 
-USE_SWIFT = True
+USE_SWIFT = False
+WEB_RSYNC = False
 
 AUTH_USER_MODEL = 'web.MyUser'
 
@@ -173,8 +174,8 @@ EMAIL_USE_TLS = True
 SITE_URL='thucloud.com'
 SITE_NAME='thuclouddisk'
 
-SWIFT_HOST='166.111.81.175:5000'
-SWIFT_URL='166.111.81.175'
+SWIFT_HOST='192.168.56.101:5000'
+SWIFT_URL='192.168.56.101'
 SWIFT_TENANT='demo'
 SWIFT_USER = 'demo'
 SWIFT_SECRET = 'DEMO_PASS'
