@@ -272,11 +272,7 @@
     function reloadFilelist(){
         htmlobj=$.ajax({url:"/filelist?current_dir={{ current_dir }}{% if order_by %}&order_by={{ order_by }}{% endif %}{% if sort_method %}&sort_method={{ sort_method }}{% endif %}",async:false});
         $("#filebody").html(htmlobj.responseText);
-
-    }
-        $(document).ready(function(){
-            reloadFilelist();
-            $(".checkfile").bind('click',function(){
+        $(".checkfile").bind('click',function(){
 
                     var no_checked = true
                     $(":checkbox:checked").each(function(){
@@ -320,6 +316,10 @@
               $(this).parent().children('form').submit()
 
           })
+    }
+        $(document).ready(function(){
+            reloadFilelist();
+
             var upload_settings = {
                 url: "/upload"+"?current_dir="+"{{ current_dir }}",
                 dragDrop:true,
