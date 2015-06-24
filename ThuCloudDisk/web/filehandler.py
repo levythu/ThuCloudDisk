@@ -56,7 +56,17 @@ def uploadhandler(request):
     handle_uploaded_file(request.user.email,current_dir,file)
 
     return HttpResponseRedirect('/home/files?current_dir='+current_dir)
-
+import time
+def uploadfile(request):
+    data = ["\u521b\u8d5b\u4ee3\u7801.zip"]
+    if request.GET.has_key('current_dir'):
+       current_dir= request.GET['current_dir']
+    else:
+        current_dir= ''
+    file = request.FILES['myfile']
+    return_data = [file.__str__()]
+    handle_uploaded_file(request.user.email,current_dir,file)
+    return HttpResponse(json.dumps(return_data))
 import urllib
 import mimetypes
 def download_file(request):
@@ -94,7 +104,7 @@ def download_file(request):
     response['Content-Disposition'] = 'attachement; '+ filename_header
     return response
 import shutil
-@csrf_protect
+#@csrf_protect
 def delete_file(request):
     file_name = request.POST['file_name']
     current_dir = request.POST['current_dir']
@@ -151,7 +161,13 @@ def batch_download(request):
     for file in file_list:
         file_path = os.path.join(settings.LOCAL_BUFFER_PATH,email,current_dir,file)
         file_path = file_path.encode('utf-8')
-        zfile.write(file_path)
+        zfile.write(file_path,arcname=file)
+        prefix_name = os.path.join(settings.LOCAL_BUFFER_PATH,email,current_dir)
+        for temp_root, temp_dirs, temp_files in os.walk(file_path):
+            for temp_file in temp_files:
+                temp_full_file_name = os.path.join(temp_root, temp_file)
+                temp_archname = temp_full_file_name.replace(prefix_name,'')
+                zfile.write(os.path.join(temp_root, temp_file),arcname=temp_archname)
     zfile.close()
     return HttpResponse(zipfilename)
 @csrf_protect

@@ -2,8 +2,12 @@
 {%block css_sticky%}
 <link href="/static/css/filestyle.css" rel="stylesheet">
 
+<link href="/static/fileupload/uploadfile.css" rel="stylesheet">
 <link href="/static/css/jquery.contextMenu.css" rel="stylesheet">
-    <script src="/static/js/jquery.js"></script>
+    <link href="/static/css/jquery.contextMenu.css" rel="stylesheet">
+    <link href="/static/css/MimeTypeIcon.css" rel="stylesheet">
+{#    <script src="/static/js/jquery.js"></script>#}
+
     {% if WEB_RSYNC %}
     <script src="/static/js/socket.io-1.3.0.js"></script>
         <script src="/static/js/bit-sync.js"></script>
@@ -66,13 +70,32 @@
             })
 
         </script>
+        <script type="application/javascript">
+            function verifyData(buffer1, buffer2)
+            {
+              var buffer1View8 = new Uint8Array(buffer1);
+              var buffer2View8 = new Uint8Array(buffer2);
+
+              if(buffer1.byteLength != buffer2.byteLength) return false;
+
+              var pass = true;
+              for(var i=0; i<buffer1View8.length; i++)
+                if(buffer1View8[i] != buffer2View8[i])
+                {
+                  pass=false;
+                  break;
+                }
+              return pass;
+            }
+
+        </script>
     {% endif %}
 {%endblock%}
 {%block header%}
     
-        <!--[if !IE]><!--> 
-        <div class="navbar navbar-fixed-top">
-      <div class="container" style="background-color:#f7faff">
+
+     <div class="navbar navbar-fixed-top">
+      <div class="container" style="background-color:#ffffff">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
           <span class="icon-bar"></span>
@@ -95,36 +118,6 @@
       </div>
       </div>
       </div>
-      <!--<![endif]-->
-
-      <!--[if lte IE 9]>
-      <style type="text/css">
-      body{
-        min-width:600px;
-        max-width:1100px;
-        margin:0 auto -90px;
-      }
-      .fileheader-fiexed-top{
-        max-width:1100px;
-        margin:0 auto;
-      }
-      </style>
-        <div class="header">
-        <div class="container">
-        <ul class="nav nav-pills pull-right">
-        <li class="dropdown">
-          <a id="drop4" role="button" data-toggle="dropdown" href="#">{{user.email}} <b class="caret"></b></a>
-          <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">个人信息</a></li>
-            <li role="presentation"><a role="menuitem" tabindex="-1" href="/logout">退出</a></li>
-          </ul>
-        </li>
-        </ul>
-        <h3 class="text-muted"><a class="navbar-brand logo_48_196" href="/"><span class="logo_48_196_hidden_hover"></span></a></h3>
-        </div>
-      </div>
-      <![endif]-->
-    
 <div class="fileheader-fiexed-top" >
     <div id="overallcontrol" class="container"> 
     <div class="span8">
@@ -139,12 +132,15 @@
         <div id="uploadcontrol" class="pull-right">
 
             <button class="btn btn-primary" data-toggle="modal" data-target="#newFolderModal">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                 新建文件夹
             </button>
 
-            <button class="btn btn-primary" data-toggle="modal" data-target="#uploadModal">
+            <button class="btn btn-success" data-toggle="modal" data-target="#uploadModal">
+                <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span>
                 上传
             </button>
+
 
         </div>
      </div>
@@ -160,16 +156,12 @@
         <h4 class="modal-title" id="uploadModalLabel">上传文件</h4>
       </div>
       <div class="modal-body">
-        <form class="form-inline" method="POST" enctype="multipart/form-data" action="/uploadhandler">
-                {% csrf_token %}
-                 <div class="form-group"> <input id="inputfile" type="file" name="file" required=""/></div>
 
-                <input type="hidden" name="current_dir" value="{{ current_dir }}"/>
-                <div class="form-group"> <input type="submit" class="btn btn-primary btn-sm" value="上传"/></div>
-            {% if WEB_RSYNC %}
-             <div class="form-group"> <a href="javascript:convert()" class="btn btn-success btn-sm" >同步</a></div>
-            {% endif %}
-        </form>
+
+<div id="mulitplefileuploader">上传</div>
+
+        <div id="status"></div>
+
       </div>
       <div class="modal-footer">
         <a type="button" class="btn btn-default" data-dismiss="modal">取消</a>
@@ -237,57 +229,15 @@
         </thead>
     <tbody id='filebody'>
 
-         {%for file in file_list%}
-            <tr class='fileinfo'>
-                <td class='listcheckbox'><input type="checkbox" class="checkfile" name="checkedfile" value="{{ file.name }}"></td>
-                <td class="listfilename">
-                    <a
-                        {% if file.filetype == 'file' %}
-                            onclick="handle_click_file('{{file.name }}')" href="#"
-                            data-toggle="modal"
-                            data-target="#downloadModal"
-                        {% else %}
-                            href='?current_dir={{ file.this_dir }}'
 
-                    {% endif %} class="file-name-wrapper" >
-                        {% if file.filetype == 'file' %}
-                            <span class="glyphicon glyphicon-file" aria-hidden="true" style="position:inherit;margin-right:5px"></span>
-                        {% else %}
-                            <span class="glyphicon glyphicon-folder-close" aria-hidden="true" style="position:inherit;margin-right:5px"></span>
-                        {% endif %}
-                            <span class="file-name">{{file.name}}</span>
-                    </a>
-                </td>
-                <td class="filecontrol"><form action="/delete_file" method="post" style="float:left"> {% csrf_token %}<input type="hidden" name="file_name" value="{{file.name}}"/><input type="hidden" name="current_dir" value="{{current_dir}}"/></form><a class="delete-file" href="javascript:" style="float:left">删除</a><a class="rename-file"  href="javascript:;"style="float:left">重命名</a></td>
-                <td class="listsize">{{file.bytes}}bytes</td>
-                <td class="listdate">{{file.last_modified}}</td>
-            </tr>
-        {% endfor %}
         </tbody>
     </table>
 </div>
 
-        <script type="application/javascript">
-            function verifyData(buffer1, buffer2)
-            {
-              var buffer1View8 = new Uint8Array(buffer1);
-              var buffer2View8 = new Uint8Array(buffer2);
-
-              if(buffer1.byteLength != buffer2.byteLength) return false;
-
-              var pass = true;
-              for(var i=0; i<buffer1View8.length; i++)
-                if(buffer1View8[i] != buffer2View8[i])
-                {
-                  pass=false;
-                  break;
-                }
-              return pass;
-            }
-
-        </script>
 {%endblock%}
 {%block js%}
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/fileupload/jquery.uploadfile.min.js"></script>
     <script type="text/javascript" src="/static/js/base64.js"></script>
     <!--
     <script type="text/javascript" src="/static/js/jquery.contextMenu.js"></script>
@@ -319,7 +269,13 @@
     });
     </script>-->
     <script type="text/javascript">
+    function reloadFilelist(){
+        htmlobj=$.ajax({url:"/filelist?current_dir={{ current_dir }}{% if order_by %}&order_by={{ order_by }}{% endif %}{% if sort_method %}&sort_method={{ sort_method }}{% endif %}",async:false});
+        $("#filebody").html(htmlobj.responseText);
+
+    }
         $(document).ready(function(){
+            reloadFilelist();
             $(".checkfile").bind('click',function(){
 
                     var no_checked = true
@@ -353,8 +309,9 @@
                 }
             })
           $(".rename-file").bind('click',function(){
+              console.log('rename');
 
-             $current_file_name = $(this).parent().parent().contents('.listfilename').contents(".file-name-wrapper").contents(".file-name").text()
+             $current_file_name = $(this).parent().parent().contents('.listfilename').contents(".filename-wrapper").contents(".file-name-wrapper").contents(".file-name").text()
              $(this).parent().parent().children('.listfilename').html("<form method='get' action='/rename_file'> <input type='hidden' name='current_dir' value='{{ current_dir }}'><input type='text' value='"+ $current_file_name +"' name='new_name'/><input type='hidden' value='"+$current_file_name+"' name='old_name'/><input type='submit' class='btn btn-sm btn-danger' value='提交'><a class='btn btn-sm btn-default' href='/home/files' >取消</a></form>")
 
             })
@@ -363,6 +320,22 @@
               $(this).parent().children('form').submit()
 
           })
+            var upload_settings = {
+                url: "/upload"+"?current_dir="+"{{ current_dir }}",
+                dragDrop:true,
+                fileName: "myfile",
+                returnType:"json",
+                showDelete:false,
+                showDown:true,
+                 onSuccess:function(files,data,xhr)
+                {
+                   // alert((data));
+                    console.log(data);
+                    reloadFilelist();
+                }
+            };
+            var uploadObj = $("#mulitplefileuploader").uploadFile(upload_settings);
+
         });
         function handle_click_file(file_name){
                 $('#downloadModalLabel').html(file_name);
@@ -377,12 +350,12 @@
              );
             console.log(all_files);
              var url = '/batchDownload'; // 取Form中要提交的链接
-        var param = {}; // 组装发送参数
-        param['files']  = all_files;
-        param['current_dir'] = '{{ current_dir }}';
-      $.get(url, param, function(dom) {
-          location.href = '/media/buffer/batched/'+dom;
-      });
+                var param = {}; // 组装发送参数
+                param['files']  = all_files;
+                param['current_dir'] = '{{ current_dir }}';
+              $.get(url, param, function(dom) {
+                  location.href = '/media/buffer/batched/'+dom;
+              });
         }
 
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link href="/static/fileupload/uploadfile.css" rel="stylesheet">
+<script src="/static/js/jquery.js"></script>
+<script src="/static/fileupload/jquery.uploadfile.min.js"></script>
+</head>
+<body>
+Scroll Issue:
+
+<div id="mulitplefileuploader">Upload</div>
+
+<div id="status"></div>
+<script>
+$(document).ready(function()
+{
+var settings = {
+    url: "/upload",
+    dragDrop:true,
+    fileName: "myfile",
+    returnType:"json",
+	 onSuccess:function(files,data,xhr)
+    {
+       // alert((data));
+        console.log(data);
+    },
+    showDelete:true,
+    deleteCallback: function(data,pd)
+	{
+    for(var i=0;i<data.length;i++)
+    {
+        $.post("delete.php",{op:"delete",name:data[i]},
+        function(resp, textStatus, jqXHR)
+        {
+            //Show Message  
+            $("#status").append("<div>File Deleted</div>");      
+        });
+     }      
+    pd.statusbar.hide(); //You choice to hide/not.
+
+}
+}
+var uploadObj = $("#mulitplefileuploader").uploadFile(settings);
+
+
+});
+</script>
+</body>
+
