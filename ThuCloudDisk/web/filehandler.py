@@ -56,7 +56,17 @@ def uploadhandler(request):
     handle_uploaded_file(request.user.email,current_dir,file)
 
     return HttpResponseRedirect('/home/files?current_dir='+current_dir)
-
+import time
+def uploadfile(request):
+    data = ["\u521b\u8d5b\u4ee3\u7801.zip"]
+    if request.GET.has_key('current_dir'):
+       current_dir= request.GET['current_dir']
+    else:
+        current_dir= ''
+    file = request.FILES['myfile']
+    return_data = [file.__str__()]
+    handle_uploaded_file(request.user.email,current_dir,file)
+    return HttpResponse(json.dumps(return_data))
 import urllib
 import mimetypes
 def download_file(request):
@@ -94,7 +104,7 @@ def download_file(request):
     response['Content-Disposition'] = 'attachement; '+ filename_header
     return response
 import shutil
-@csrf_protect
+#@csrf_protect
 def delete_file(request):
     file_name = request.POST['file_name']
     current_dir = request.POST['current_dir']

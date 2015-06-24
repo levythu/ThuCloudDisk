@@ -1,0 +1,31 @@
+{%for file in file_list%}
+            <tr class='fileinfo'>
+                <td class='listcheckbox'><input type="checkbox" class="checkfile" name="checkedfile" value="{{ file.name }}"></td>
+                <td class="listfilename">
+                <div class="{{ file.icon }}" style="float:left"></div>
+                <div style="float:left" class="filename-wrapper">
+                    <a
+                        {% if file.filetype == 'file' %}
+                            onclick="handle_click_file('{{file.name }}')" href="#"
+                            data-toggle="modal"
+                            data-target="#downloadModal"
+                        {% else %}
+                            href='?current_dir={{ file.this_dir }}'
+
+                    {% endif %} class="file-name-wrapper" >
+{#                        {% if file.filetype == 'file' %}#}
+{#                            <span class="glyphicon glyphicon-file" aria-hidden="true" style="position:inherit;margin-right:5px"></span>#}
+{#                        {% else %}#}
+{#                            <span class="glyphicon glyphicon-folder-close" aria-hidden="true" style="position:inherit;margin-right:5px"></span>#}
+{#                        {% endif %}#}
+
+
+                            <span class="file-name">{{file.name}}</span>
+                    </a>
+                </div>
+                </td>
+                <td class="filecontrol"><form action="/delete_file" method="post" style="float:left"><input type="hidden" name="file_name" value="{{file.name}}"/><input type="hidden" name="current_dir" value="{{current_dir}}"/></form><a class="delete-file" href="javascript:" style="float:left">删除</a><a class="rename-file"  href="javascript:;"style="float:left">重命名</a></td>
+                <td class="listsize">{{file.bytes}}</td>
+                <td class="listdate">{{file.last_modified}}</td>
+            </tr>
+        {% endfor %}
