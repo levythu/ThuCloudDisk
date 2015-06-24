@@ -91,6 +91,8 @@ def filelist(request):
                 icon = 'icon video-icon'
             elif type == 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' or type=='application/msword':
                 icon = 'word-icon icon'
+            elif type=='application/vnd.ms-xpsdocument':
+                icon = 'xps-icon icon'
             elif type.split('/')[0] == 'text':
                 icon = 'text-icon icon'
             else:

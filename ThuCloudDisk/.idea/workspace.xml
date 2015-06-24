@@ -31,11 +31,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="homeviews.py" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="homeviews.py" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/homeviews.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.1413043" vertical-offset="757" max-vertical-offset="2130">
-              <caret line="103" column="6" selection-start-line="103" selection-start-column="6" selection-end-line="103" selection-end-column="6" />
+            <state vertical-scroll-proportion="-8.961538" vertical-offset="1177" max-vertical-offset="2160">
+              <caret line="94" column="37" selection-start-line="94" selection-start-column="37" selection-end-line="94" selection-end-column="37" />
               <folding>
                 <element signature="e#24#40#0" expanded="true" />
               </folding>
@@ -83,11 +83,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MimeTypeIcon.css" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="MimeTypeIcon.css" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/static/css/MimeTypeIcon.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.961538" vertical-offset="1005" max-vertical-offset="1455">
-              <caret line="86" column="3714" selection-start-line="86" selection-start-column="3714" selection-end-line="86" selection-end-column="3714" />
+            <state vertical-scroll-proportion="0.7554348" vertical-offset="1162" max-vertical-offset="1605">
+              <caret line="96" column="27" selection-start-line="96" selection-start-column="27" selection-end-line="96" selection-end-column="27" />
               <folding>
                 <element signature="e#185#6302#2" expanded="true" />
                 <element signature="e#6482#13927#2" expanded="true" />
@@ -116,8 +116,8 @@
       <file leaf-file-name="fileList.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/home/fileList.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.18" vertical-offset="196" max-vertical-offset="540">
-              <caret line="27" column="51" selection-start-line="27" selection-start-column="51" selection-end-line="27" selection-end-column="51" />
+            <state vertical-scroll-proportion="-4.48" vertical-offset="196" max-vertical-offset="540">
+              <caret line="28" column="64" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
               <folding>
                 <element signature="e#278#296#0#HTML" expanded="true" />
                 <element signature="e#325#343#0#HTML" expanded="true" />
@@ -155,11 +155,11 @@
         <option value="$PROJECT_DIR$/ThuCloudDisk/urls.py" />
         <option value="$PROJECT_DIR$/web/filehandler.py" />
         <option value="$PROJECT_DIR$/static/css/filestyle.css" />
-        <option value="$PROJECT_DIR$/static/css/MimeTypeIcon.css" />
         <option value="$PROJECT_DIR$/templates/_sticky_navbar_footer.html" />
         <option value="$PROJECT_DIR$/templates/home/files.html" />
         <option value="$PROJECT_DIR$/templates/home/fileList.html" />
         <option value="$PROJECT_DIR$/web/homeviews.py" />
+        <option value="$PROJECT_DIR$/static/css/MimeTypeIcon.css" />
       </list>
     </option>
   </component>
@@ -621,7 +621,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="python-line">
           <url>file://$PROJECT_DIR$/web/homeviews.py</url>
-          <line>112</line>
+          <line>114</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -971,24 +971,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/static/css/MimeTypeIcon.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.961538" vertical-offset="1005" max-vertical-offset="1455">
-          <caret line="86" column="3714" selection-start-line="86" selection-start-column="3714" selection-end-line="86" selection-end-column="3714" />
-          <folding>
-            <element signature="e#185#6302#2" expanded="true" />
-            <element signature="e#6482#13927#2" expanded="true" />
-            <element signature="e#14114#15623#2" expanded="true" />
-            <element signature="e#15802#20839#2" expanded="true" />
-            <element signature="e#21021#26530#2" expanded="true" />
-            <element signature="e#26711#28320#2" expanded="true" />
-            <element signature="e#28510#29627#2" expanded="true" />
-            <element signature="e#29931#33126#2" expanded="true" />
-            <element signature="e#33198#36891#2" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/_sticky_navbar_footer.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-1.78" vertical-offset="541" max-vertical-offset="900">
@@ -1015,8 +997,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/home/fileList.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.18" vertical-offset="196" max-vertical-offset="540">
-          <caret line="27" column="51" selection-start-line="27" selection-start-column="51" selection-end-line="27" selection-end-column="51" />
+        <state vertical-scroll-proportion="-4.48" vertical-offset="196" max-vertical-offset="540">
+          <caret line="28" column="64" selection-start-line="28" selection-start-column="64" selection-end-line="28" selection-end-column="64" />
           <folding>
             <element signature="e#278#296#0#HTML" expanded="true" />
             <element signature="e#325#343#0#HTML" expanded="true" />
@@ -1029,10 +1011,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/homeviews.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.1413043" vertical-offset="757" max-vertical-offset="2130">
-          <caret line="103" column="6" selection-start-line="103" selection-start-column="6" selection-end-line="103" selection-end-column="6" />
+        <state vertical-scroll-proportion="-8.961538" vertical-offset="1177" max-vertical-offset="2160">
+          <caret line="94" column="37" selection-start-line="94" selection-start-column="37" selection-end-line="94" selection-end-column="37" />
           <folding>
             <element signature="e#24#40#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/css/MimeTypeIcon.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7554348" vertical-offset="1162" max-vertical-offset="1605">
+          <caret line="96" column="27" selection-start-line="96" selection-start-column="27" selection-end-line="96" selection-end-column="27" />
+          <folding>
+            <element signature="e#185#6302#2" expanded="true" />
+            <element signature="e#6482#13927#2" expanded="true" />
+            <element signature="e#14114#15623#2" expanded="true" />
+            <element signature="e#15802#20839#2" expanded="true" />
+            <element signature="e#21021#26530#2" expanded="true" />
+            <element signature="e#26711#28320#2" expanded="true" />
+            <element signature="e#28510#29627#2" expanded="true" />
+            <element signature="e#29931#33126#2" expanded="true" />
+            <element signature="e#33198#36891#2" expanded="true" />
           </folding>
         </state>
       </provider>
