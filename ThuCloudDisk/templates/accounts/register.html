@@ -8,7 +8,7 @@
   {% autoescape on %}
     <div class="form-group">  
         <!--[if lte IE 9]> <label>邮箱</label><![endif]-->    
-        <input class="form-control" type="email" name="email" value="{%if not emailExist %}{%if email%}{{email}}{%endif%}{%endif%}" id="email" placeholder='邮箱' required/>
+        <input class="form-control" type="text" name="email" value="{%if not emailExist %}{%if email%}{{email}}{%endif%}{%endif%}" id="email" placeholder='邮箱' required/>
         {%if emailExist%}<span>{{email}}已经注册,直接 <a href="/login?email={{email}}">登录</a></span>{%endif%}
         <span class="help-block" id="email_error"></span>
     </div>

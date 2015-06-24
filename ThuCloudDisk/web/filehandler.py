@@ -151,7 +151,13 @@ def batch_download(request):
     for file in file_list:
         file_path = os.path.join(settings.LOCAL_BUFFER_PATH,email,current_dir,file)
         file_path = file_path.encode('utf-8')
-        zfile.write(file_path)
+        zfile.write(file_path,arcname=file)
+        prefix_name = os.path.join(settings.LOCAL_BUFFER_PATH,email,current_dir)
+        for temp_root, temp_dirs, temp_files in os.walk(file_path):
+            for temp_file in temp_files:
+                temp_full_file_name = os.path.join(temp_root, temp_file)
+                temp_archname = temp_full_file_name.replace(prefix_name,'')
+                zfile.write(os.path.join(temp_root, temp_file),arcname=temp_archname)
     zfile.close()
     return HttpResponse(zipfilename)
 @csrf_protect

@@ -4,14 +4,14 @@
 {%endblock%}
 {%block content%}
     <div class="container">
-      <form class="form-signin" action="{% url 'web.accountviews.login_do' %}" method='POST' autocomplete="off" onsubmit="return validate()">
+      <form class="form-signin" action="{% url 'web.accountviews.login_do' %}" method='POST' autocomplete="off" onsubmit="return true;validate()">
        {% csrf_token %}
        {% autoescape on %}
         {%if message%}
         <div class="alert">{{message}}</div>
           {%endif%}
           <!--[if lte IE 9]> <label>邮箱</label><![endif]-->
-        <input type="email" name="email" id="email" class="form-control" value="{%if email%}{{email}}{%endif%}" placeholder="邮箱地址" autofocus required>
+        <input type="text" name="email" id="email" class="form-control" value="{%if email%}{{email}}{%endif%}" placeholder="邮箱地址" autofocus required>
         <span class="help-block" id="email_error"></span>
             <!--[if lte IE 9]> <label>密码</label><![endif]-->
         <input type="password" name="password" class="form-control" placeholder="密码" required>
