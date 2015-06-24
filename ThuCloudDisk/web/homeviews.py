@@ -17,6 +17,7 @@ import json
 import datetime
 import sys
 reload(sys)
+import time
 sys.setdefaultencoding('utf-8')
 
 @login_required(login_url='/login')
@@ -78,7 +79,6 @@ def filelist(request):
             abs_path = os.path.join(user_path,f)
             abs_path = abs_path.encode('utf-8')
             type,encoding = mimetypes.guess_type(abs_path)
-            print abs_path,type
             if type == None:
                 icon='glyphicon glyphicon-file icon'
             elif type.split('/')[0] == 'image':
@@ -113,14 +113,17 @@ def filelist(request):
             rawsize = os.path.getsize(abs_path)
             filesize = rawsize
             if(filesize < 1000):
-                filesize = filesize.__str__() +'B'
+                filesize = filesize.__str__() +' B'
             elif(filesize < 1000*1000):
-                filesize = (int(float(filesize)/1000)).__str__() +'Kb'
+                filesize = (int(float(filesize)/1000)).__str__() +' KB'
             elif(filesize < 1000*1000*1000):
-                filesize = (round(float(filesize)/1000/1000,1)).__str__() +'M'
+                filesize = (round(float(filesize)/1000/1000,1)).__str__() +' MB'
             last_modified = datetime.datetime.fromtimestamp(os.path.getmtime(abs_path));
-            last_modified = last_modified.__str__()
-            file_list.append({'this_dir':this_dir,'filetype':fileType,'icon':icon,'name':f,'rawsize':rawsize,'bytes':filesize,'last_modified':last_modified})
+
+            last_modified_format = datetime.datetime(last_modified.year, last_modified.month, last_modified.day, last_modified.hour, last_modified.minute, last_modified.second)
+            last_modified_str =  last_modified_format.__str__()
+
+            file_list.append({'this_dir':this_dir,'filetype':fileType,'icon':icon,'name':f,'rawsize':rawsize,'bytes':filesize,'last_modified':last_modified_str})
 
     sort_method = 'asc'
     if not request.GET.has_key('order_by'):
