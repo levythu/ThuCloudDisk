@@ -95,6 +95,10 @@ def filelist(request):
                 icon = 'xps-icon icon'
             elif type.split('/')[0] == 'text':
                 icon = 'text-icon icon'
+            elif type == 'application/vnd.ms-excel' or type =='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+                icon = 'excel-icon icon'
+            elif type == 'application/vnd.openxmlformats-officedocument.presentationml.presentation' or type == 'application/mspowerpoint':
+                icon = 'ppt-icon icon'
             else:
                 icon='glyphicon glyphicon-file icon'
 
