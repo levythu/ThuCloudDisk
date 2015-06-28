@@ -3,7 +3,7 @@
 <link href="/static/css/register.css" rel="stylesheet">
 {%endblock%}
 {%block content%}
- <form action="{% url 'web.accountviews.register_do' %}" method='POST' autocomplete="off" class="form-horizontal form-register" onsubmit="return validate()" role="form">
+ <form action="{% url 'web.accountviews.register_do' %}" method='POST' autocomplete="off" class="form-horizontal form-register" role="form">
   {% csrf_token %}
   {% autoescape on %}
     <div class="form-group">  
