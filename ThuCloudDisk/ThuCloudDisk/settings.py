@@ -19,7 +19,7 @@ DATABASES = {
         'NAME': 'ThuCloudDisk',                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'root',
-        'PASSWORD': 'thusoftware',
+        'PASSWORD': 'Zstbj2013',
         'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
         'PORT': '',                      # Set to empty string for default.
     }
@@ -166,9 +166,9 @@ WEB_RSYNC = False
 
 AUTH_USER_MODEL = 'web.MyUser'
 
-EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER='thuclouddisk@gmail.com'
-EMAIL_HOST_PASSWORD='thuclouddisk2013'
+EMAIL_HOST='smtp.163.com'
+EMAIL_HOST_USER='thucloudaccount@163.com'
+EMAIL_HOST_PASSWORD='jzfiiczzaziqhymt'
 EMAIL_USE_TLS = True
 
 SITE_URL='thucloud.com'

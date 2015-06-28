@@ -30,6 +30,7 @@ def register_do(request):
     except:
         return redirect('/register')
     try:
+
         MyUser.objects.get(email=email)
         emailExist = True
         return render(request,"accounts/register.html",locals())
@@ -37,8 +38,13 @@ def register_do(request):
         #bucket = email
         #userBucket.objects.create(ownerMail = email, bucket = bucket)
         #create user buffer
-        user = MyUser.objects.create_user(email = email, nickname = nickname, password = password)
-        user.save()
+        try:
+            MyUser.objects.get(nickname=nickname)
+            nicknameExist = True
+            return render(request,"accounts/register.html",locals())
+        except MyUser.DoesNotExist:
+            user = MyUser.objects.create_user(email = email, nickname = nickname, password = password)
+            user.save()
 
         try:
             user_dir = os.path.join(settings.LOCAL_BUFFER_PATH,email)
@@ -70,6 +76,7 @@ def login(request):
     else: next='/'
     if 'email' in request.GET:
         email = request.GET['email']
+
     return render(request,'accounts/login.html',locals())
 
 @csrf_protect
@@ -86,8 +93,21 @@ def login_do(request):
         message = '登录成功'
         return redirect('/home/files')
     else:
-        message = '用户名或密码不正确'
-        return render(request,'accounts/login.html',locals())
+        try:
+            tempUser = MyUser.objects.get(nickname=email)
+            user = authenticate(email=tempUser.email , password=password)
+            if user is not None:
+                auth_login(request, user)
+                message = '登录成功'
+                return redirect('/home/files')
+            else:
+                message = '用户名或密码不正确'
+                return render(request,'accounts/login.html',locals())
+        except:
+            message = '用户名或密码不正确'
+            return render(request,'accounts/login.html',locals())
+
+
 
 def logout(request):
     auth_logout(request)

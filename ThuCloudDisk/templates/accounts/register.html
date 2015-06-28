@@ -9,12 +9,13 @@
     <div class="form-group">  
         <!--[if lte IE 9]> <label>邮箱</label><![endif]-->    
         <input class="form-control" type="text" name="email" value="{%if not emailExist %}{%if email%}{{email}}{%endif%}{%endif%}" id="email" placeholder='邮箱' required/>
-        {%if emailExist%}<span>{{email}}已经注册,直接 <a href="/login?email={{email}}">登录</a></span>{%endif%}
+    {%if emailExist%}<span>{{email}}已经注册,直接 <a href="/login?email={{email}}">登录</a></span>{%endif%}
         <span class="help-block" id="email_error"></span>
     </div>
     <div class="form-group">    
         <!--[if lte IE 9]> <label>昵称</label><![endif]-->    
          <input class="form-control" type="text" name="nickname" id="nickname" value="{%if nickname%}{{nickname}}{%endif%}" placeholder='昵称' required/>
+    {%if nicknameExist%}<span>{{nickname}}已经注册,直接 <a href="/login?email={{nickname}}">登录</a></span>{%endif%}
          <span class="help-block" id="nickname_error"></span>
     </div>
     <div class="form-group">
