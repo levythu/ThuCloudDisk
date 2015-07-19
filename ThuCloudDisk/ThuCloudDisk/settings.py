@@ -161,7 +161,7 @@ LOGGING = {
     }
 }
 
-USE_SWIFT = False
+USE_SWIFT = True
 WEB_RSYNC = False
 
 AUTH_USER_MODEL = 'web.MyUser'
@@ -180,4 +180,3 @@ SWIFT_TENANT='demo'
 SWIFT_USER = 'demo'
 SWIFT_SECRET = 'DEMO_PASS'
 LOCAL_BUFFER_PATH = os.path.join(ROOT_PATH, 'media/buffer').replace('\\','/')
-

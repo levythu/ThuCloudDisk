@@ -38,13 +38,15 @@ def handle_uploaded_file(email,current_dir,f):
         basename = os.path.splitext(file_path)[0]
         basename = basename + '_'+ get_timestamp()
         file_path = basename + file_extension(file_path)
+    print 'file path',file_path
     with open(file_path,'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
-        swift.put_object_from_file(container = email,prefix = '',filepath = file_path)
+        prefix = current_dir.replace('./','')
+        swift.put_object_from_file(container = email,prefix = prefix,filepath = file_path)
     return HttpResponseRedirect('/home/files')
 @csrf_protect
 def uploadhandler(request):
@@ -80,7 +82,7 @@ def download_file(request):
             swift = Swift()
             swift.connect()
             print 'get object to file'
-            swift.get_object_to_file(email,file_name)
+            swift.get_object_to_file(email,current_dir,file_name)
     type,encoding = mimetypes.guess_type(file_path)
     if type is None:
         content_type = magic.from_file(file_path,mime=True)
@@ -94,7 +96,7 @@ def download_file(request):
     response['Content-Length'] = os.path.getsize(file_path) 
 
     if u'WebKit' in request.META['HTTP_USER_AGENT']:
-        filename_header = 'filename=%s' % file_name.encode('utf-8')
+        filename_header = 'filename="%s"' % file_name.encode('utf-8')
     elif u'MSIE' in request.META['HTTP_USER_AGENT']:
         filename_header = ''
         filename_header = 'filename*=UTF-8\'\'%s' % urllib.quote(file_name.encode('utf-8'))
@@ -111,7 +113,8 @@ def delete_file(request):
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
-        swift.delete_object(request.user.email,file_name)
+        prefix = current_dir.replace('./','')
+        swift.delete_object(request.user.email,prefix,file_name)
     try:
         buffer_path  = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,file_name)
         buffer_path = buffer_path.encode('utf-8')
@@ -181,7 +184,9 @@ def new_folder(request):
         if settings.USE_SWIFT:
             swift = Swift()
             swift.connect()
-            swift.put_object_of_foler(container = request.user.email,prefix = '',folder=os.path.join(current_dir,new_folder))
+            prefix = current_dir.replace('./','')
+            swift.put_object_of_foler(container = request.user.email,prefix = prefix,folder=new_folder)
     except:
         print 'fail to create '+new_folder
+
     return HttpResponseRedirect('/home/files?current_dir='+current_dir)

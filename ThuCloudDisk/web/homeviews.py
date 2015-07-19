@@ -18,6 +18,7 @@ import datetime
 import sys
 reload(sys)
 import time
+import re
 sys.setdefaultencoding('utf-8')
 
 @login_required(login_url='/login')
@@ -59,15 +60,52 @@ def filelist(request):
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
-        tuple =  swift.list_container(user.email);
+        prefix = current_dir
+        if prefix == '':
+            prefix = None
+        else:
+            prefix = prefix.replace('./','')
+        print 'prefix',prefix
+
+        tuple =  swift.list_container(user.email,prefix=prefix,delimiter='/');
         if tuple == None:
             swift.put_container(user.email)
-            tuple = swift.list_container(user.email)
-
+            tuple = swift.list_container(user.email,prefix=prefix,delimiter='/')
+        print 'tuple',tuple
         for f in tuple[1]:
-            this_dir = './'
-            fileType = 'file'
-            file_list.append({'this_dir':this_dir,'filetype':fileType,'name':f['name'],'last_modified':f['last_modified'],'bytes':f['bytes']})
+            if f.has_key('bytes'):
+                this_dir = './'
+                fileType = 'file'
+                filesize = int(f['bytes'])
+                if(filesize < 1000):
+                    filesize = filesize.__str__() +' B'
+                elif(filesize < 1000*1000):
+                    filesize = (int(float(filesize)/1000)).__str__() +' KB'
+                elif(filesize < 1000*1000*1000):
+                    filesize = (round(float(filesize)/1000/1000,1)).__str__() +' MB'
+                last_modified = f['last_modified']
+                pattern = re.compile(r'\.\d{6}',re.S)
+                last_modified = pattern.sub('',last_modified)
+                last_modified = last_modified.replace('T',' ')
+                icon = 'text-icon icon'
+                fname = f['name'].split('/')[-1]
+                fname = fname.replace('/','')
+                if fname == '':
+                    continue
+
+            else:
+                icon = 'folder-icon icon'
+                this_dir = f['subdir']
+                fname = f['subdir']
+                print 'fname', fname
+                fname = fname.split('/')
+                print fname
+                fname = fname[-2]
+                last_modified = ''
+                filesize = 0
+                fileType = 'dir'
+
+            file_list.append({'icon':icon,'this_dir':this_dir,'filetype':fileType,'name':fname,'last_modified':last_modified,'bytes':filesize})
 
     else:
         user_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir)

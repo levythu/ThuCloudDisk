@@ -21,11 +21,11 @@ class Swift:
 
     def list_container(self,container_name,prefix=None,delimiter=None):
 
-        if True:#try:
+        try:
             return client.get_container(self.storage_url,self.token,container_name,prefix=prefix,delimiter=delimiter,http_conn=self.http_conn)
 
-        #except:
-        #    return None
+        except:
+            return None
 
     def put_container(self,container_name):
         if(self.list_container(container_name) == None):
@@ -43,10 +43,14 @@ class Swift:
 
     def get_object_to_file(self,container,userpath,filename):
         filepath = os.path.join(LOCAL_BUFFER_PATH,userpath)
+        print filepath
         filepath = filepath + filename
         GetBufferSize = 1024*1024*10
+        prefix = userpath.replace('./','')
+        objectName = prefix + filename
+        print 'objectName',objectName
         try:
-            res = client.get_object(self.storage_url,self.token,container,filename)
+            res = client.get_object(self.storage_url,self.token,container,objectName)
             fileSize = res[0]['content-length']
             fileDate = res[0]['last-modified']
             filename = filename
@@ -59,9 +63,7 @@ class Swift:
             return False
 
     def put_object_of_foler(self,container,prefix,folder):
-        print self.storage_url
-        print container
-        print folder
+        folder = prefix + folder
         client.put_object(self.storage_url,self.token,container,folder+'/')
         return True
     def put_object_from_file(self,container,prefix,filepath):
@@ -72,7 +74,7 @@ class Swift:
             strlist = filepath.split('/')
             for value in strlist:
                 object = value
-
+            object = prefix+object
             fp = open(filepath,'rb')
             print filepath
             client.put_object(self.storage_url,self.token,container,object,fp,content_length=content_length,content_type=content_type)
@@ -80,9 +82,10 @@ class Swift:
         #except:
         #    return False
     
-    def delete_object(self, container, name):
+    def delete_object(self, container, prefix, name):
         try:
-    	    print client.delete_object(self.storage_url, self.token, container, name)
+            object_name = prefix + name
+    	    print client.delete_object(self.storage_url, self.token, container, object_name)
 	    return True
         except:
             return False
@@ -91,8 +94,8 @@ if __name__ == '__main__':
     #def get_new_file_path(container,object):
     swift = Swift();
     swift.connect();
-    print swift.list_container('guaiwolou');
-    swift.put_container('guaiwolou');
+    print swift.list_container('test@thucloud.com');
+    #swift.put_container('demo-container1');
     # print swift.list_container('xiaoh16@gmail.com');
     #print swift.put_container('ThuCloudDisk-container');
     #swift.put_object_from_file('ThuCloudDisk-container',prefix='',filepath='/home/chengls10/Desktop/2')
