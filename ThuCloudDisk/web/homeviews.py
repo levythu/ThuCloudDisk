@@ -49,6 +49,7 @@ def files(request):
     return render(request,'home/files.html',locals())
     #return render(request,'basic-plus.html')
 def filelist(request):
+    RenameAllowed = False
     user = request.user
     file_list = []
     WEB_RSYNC = settings.WEB_RSYNC
@@ -65,13 +66,12 @@ def filelist(request):
             prefix = None
         else:
             prefix = prefix.replace('./','')
-        print 'prefix',prefix
 
         tuple =  swift.list_container(user.email,prefix=prefix,delimiter='/');
         if tuple == None:
             swift.put_container(user.email)
             tuple = swift.list_container(user.email,prefix=prefix,delimiter='/')
-        print 'tuple',tuple
+
         for f in tuple[1]:
             if f.has_key('bytes'):
                 this_dir = './'
@@ -97,9 +97,7 @@ def filelist(request):
                 icon = 'folder-icon icon'
                 this_dir = f['subdir']
                 fname = f['subdir']
-                print 'fname', fname
                 fname = fname.split('/')
-                print fname
                 fname = fname[-2]
                 last_modified = ''
                 filesize = 0

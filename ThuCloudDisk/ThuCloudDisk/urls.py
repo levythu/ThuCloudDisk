@@ -35,6 +35,7 @@ urlpatterns = patterns('',
     url(r'^rename_file',rename_file),
     url(r'^batchDownload',batch_download),
     url(r'^new_folder',new_folder),
+    url(r'^openshare$',openShare),
     # Examples:
     # url(r'^$', 'ThuCloudDisk.views.home', name='home'),
     # url(r'^ThuCloudDisk/', include('ThuCloudDisk.foo.urls')),

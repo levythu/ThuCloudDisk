@@ -38,7 +38,6 @@ def handle_uploaded_file(email,current_dir,f):
         basename = os.path.splitext(file_path)[0]
         basename = basename + '_'+ get_timestamp()
         file_path = basename + file_extension(file_path)
-    print 'file path',file_path
     with open(file_path,'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
@@ -81,7 +80,6 @@ def download_file(request):
         if settings.USE_SWIFT:
             swift = Swift()
             swift.connect()
-            print 'get object to file'
             swift.get_object_to_file(email,current_dir,file_name)
     type,encoding = mimetypes.guess_type(file_path)
     if type is None:
@@ -114,6 +112,9 @@ def delete_file(request):
         swift = Swift()
         swift.connect()
         prefix = current_dir.replace('./','')
+    if file_name[-1] == '/':
+        swift.delete_folder(request.user.email,file_name)
+    else:
         swift.delete_object(request.user.email,prefix,file_name)
     try:
         buffer_path  = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,file_name)
@@ -123,7 +124,7 @@ def delete_file(request):
         else:
             os.remove(buffer_path)
     except:
-        print 'fail to delete'+file_name
+        print 'locally fail to delete '+file_name
     return HttpResponseRedirect('/home/files?current_dir='+current_dir)
 
 @csrf_protect
@@ -137,11 +138,8 @@ def rename_file(request):
         current_dir= ''
     #todo swfit rename
     try:
-        print old_name
         buffer_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,old_name)
         new_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,new_name)
-        print buffer_path
-        print new_path
         os.renames(buffer_path,new_path)
     except:
         print 'fail to rename'+old_name
@@ -151,8 +149,6 @@ import zipfile
 def batch_download(request):
     files = request.GET['files']
     current_dir = request.GET['current_dir']
-    print files
-    print current_dir
     email = request.user.email
     #file_name = request.GET['file_name']
     file_list = files.split('#')
@@ -190,3 +186,20 @@ def new_folder(request):
         print 'fail to create '+new_folder
 
     return HttpResponseRedirect('/home/files?current_dir='+current_dir)
+import uuid
+import hashlib
+def openShare(request):
+    filename = request.GET['filename']
+    current_dir = request.GET['current_dir']
+
+    filepath = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,filename)
+    filepath = filepath.encode('utf-8')
+    object_name = current_dir+filename
+    random_code=  uuid.uuid1().hex[0:20]
+    secret = uuid.uuid4().hex[0:4]
+    o = openSharedObject(ownerEmail=request.user.email,objectName = object_name,randomCode=random_code,secret=secret)
+    o.save()
+    print 'result', random_code,secret
+    return HttpResponse(random_code)
+
+

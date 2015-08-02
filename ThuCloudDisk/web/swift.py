@@ -15,8 +15,6 @@ class Swift:
         self.storage_url = auth[0]
         self.http_conn = client.http_connection(self.storage_url)
         self.token = auth[1]
-        print self.storage_url
-        print self.token
 
 
     def list_container(self,container_name,prefix=None,delimiter=None):
@@ -40,15 +38,18 @@ class Swift:
             return client.get_object(self.storage_url,self.token,container,object,http_conn = self.http_conn)
         except:
             return None
-
+    def delete_folder(self,container,prefix):
+        print 'prefix',prefix
+        all_related_objects = client.get_container(self.storage_url,self.token,container,prefix=prefix,http_conn=self.http_conn)
+        for o in all_related_objects[1]:
+            self.delete_object(container,prefix='',name=o['name'])
+        return False
     def get_object_to_file(self,container,userpath,filename):
         filepath = os.path.join(LOCAL_BUFFER_PATH,userpath)
-        print filepath
         filepath = filepath + filename
         GetBufferSize = 1024*1024*10
         prefix = userpath.replace('./','')
         objectName = prefix + filename
-        print 'objectName',objectName
         try:
             res = client.get_object(self.storage_url,self.token,container,objectName)
             fileSize = res[0]['content-length']
@@ -76,7 +77,6 @@ class Swift:
                 object = value
             object = prefix+object
             fp = open(filepath,'rb')
-            print filepath
             client.put_object(self.storage_url,self.token,container,object,fp,content_length=content_length,content_type=content_type)
             return True
         #except:
@@ -85,7 +85,7 @@ class Swift:
     def delete_object(self, container, prefix, name):
         try:
             object_name = prefix + name
-    	    print client.delete_object(self.storage_url, self.token, container, object_name)
+    	    client.delete_object(self.storage_url, self.token, container, object_name)
 	    return True
         except:
             return False
