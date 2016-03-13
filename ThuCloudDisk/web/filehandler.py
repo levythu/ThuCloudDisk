@@ -44,7 +44,8 @@ def handle_uploaded_file(email,current_dir,f):
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
-        swift.put_object_from_file(container = email,prefix = '',filepath = file_path)
+        prefix = current_dir.replace('./','')
+        swift.put_object_from_file(container = email,prefix = prefix,filepath = file_path)
     return HttpResponseRedirect('/home/files')
 @csrf_protect
 def uploadhandler(request):
@@ -79,8 +80,7 @@ def download_file(request):
         if settings.USE_SWIFT:
             swift = Swift()
             swift.connect()
-            print 'get object to file'
-            swift.get_object_to_file(email,file_name)
+            swift.get_object_to_file(email,current_dir,file_name)
     type,encoding = mimetypes.guess_type(file_path)
     if type is None:
         content_type = magic.from_file(file_path,mime=True)
@@ -94,7 +94,7 @@ def download_file(request):
     response['Content-Length'] = os.path.getsize(file_path) 
 
     if u'WebKit' in request.META['HTTP_USER_AGENT']:
-        filename_header = 'filename=%s' % file_name.encode('utf-8')
+        filename_header = 'filename="%s"' % file_name.encode('utf-8')
     elif u'MSIE' in request.META['HTTP_USER_AGENT']:
         filename_header = ''
         filename_header = 'filename*=UTF-8\'\'%s' % urllib.quote(file_name.encode('utf-8'))
@@ -111,7 +111,11 @@ def delete_file(request):
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
-        swift.delete_object(request.user.email,file_name)
+        prefix = current_dir.replace('./','')
+    if file_name[-1] == '/':
+        swift.delete_folder(request.user.email,file_name)
+    else:
+        swift.delete_object(request.user.email,prefix,file_name)
     try:
         buffer_path  = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,file_name)
         buffer_path = buffer_path.encode('utf-8')
@@ -120,7 +124,7 @@ def delete_file(request):
         else:
             os.remove(buffer_path)
     except:
-        print 'fail to delete'+file_name
+        print 'locally fail to delete '+file_name
     return HttpResponseRedirect('/home/files?current_dir='+current_dir)
 
 @csrf_protect
@@ -134,11 +138,8 @@ def rename_file(request):
         current_dir= ''
     #todo swfit rename
     try:
-        print old_name
         buffer_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,old_name)
         new_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,new_name)
-        print buffer_path
-        print new_path
         os.renames(buffer_path,new_path)
     except:
         print 'fail to rename'+old_name
@@ -148,8 +149,6 @@ import zipfile
 def batch_download(request):
     files = request.GET['files']
     current_dir = request.GET['current_dir']
-    print files
-    print current_dir
     email = request.user.email
     #file_name = request.GET['file_name']
     file_list = files.split('#')
@@ -181,7 +180,26 @@ def new_folder(request):
         if settings.USE_SWIFT:
             swift = Swift()
             swift.connect()
-            swift.put_object_of_foler(container = request.user.email,prefix = '',folder=os.path.join(current_dir,new_folder))
+            prefix = current_dir.replace('./','')
+            swift.put_object_of_foler(container = request.user.email,prefix = prefix,folder=new_folder)
     except:
         print 'fail to create '+new_folder
+
     return HttpResponseRedirect('/home/files?current_dir='+current_dir)
+import uuid
+import hashlib
+def openShare(request):
+    filename = request.GET['filename']
+    current_dir = request.GET['current_dir']
+
+    filepath = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,filename)
+    filepath = filepath.encode('utf-8')
+    object_name = current_dir+filename
+    random_code=  uuid.uuid1().hex[0:20]
+    secret = uuid.uuid4().hex[0:4]
+    o = openSharedObject(ownerEmail=request.user.email,objectName = object_name,randomCode=random_code,secret=secret)
+    o.save()
+    print 'result', random_code,secret
+    return HttpResponse(random_code)
+
+

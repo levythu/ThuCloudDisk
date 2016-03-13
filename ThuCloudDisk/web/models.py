@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import (
     BaseUserManager, AbstractBaseUser
@@ -97,3 +98,16 @@ class publicObject(models.Model):
 class userBucket(models.Model):
     ownerMail = models.CharField(max_length = 50)
     bucket = models.CharField(max_length = 50)
+
+# 公开分享文件
+class openSharedObject(models.Model):
+    # 生成的随机验证码
+    randomCode = models.CharField(max_length = 64,primary_key=True)
+    # 文件拥有者的邮件
+    ownerEmail = models.CharField(max_length = 255)
+    # 文件路径：可能是文件夹
+    objectName = models.CharField(max_length=255)
+
+    # 用户设置的密码
+    secret = models.CharField(max_length = 255)
+

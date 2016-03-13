@@ -212,6 +212,24 @@
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="shareModalLabel">分享文件</h4>
+      </div>
+      <div class="modal-body">
+          <input type="text" name="clipboard-text" id="clipboard-text" value="its me!" style="width:300px">
+          <button class="btn btn-sm btn-success" id="target-to-copy" data-clipboard-target="clipboard-text">复制链接</button>
+      </div>
+      <div class="modal-footer">
+        <a type="button" class="btn btn-default" data-dismiss="modal">取消</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
 {%endblock%}
 {%block content%}
 <div id="filelist" class="container" >
@@ -239,6 +257,8 @@
     <script src="/static/js/jquery.js"></script>
     <script src="/static/fileupload/jquery.uploadfile.min.js"></script>
     <script type="text/javascript" src="/static/js/base64.js"></script>
+    <script src="/static/clipborad/ZeroClipboard.js"></script>
+    <script src="/static/clipborad/main.js"></script>
     <!--
     <script type="text/javascript" src="/static/js/jquery.contextMenu.js"></script>
     <script>
@@ -341,6 +361,16 @@
                 $('#downloadModalLabel').html(file_name);
                 $('#downloadfilename').val(file_name);
         }
+        function share_file(file_name){
+            var url = '/openshare';
+            var param = {}; // 组装发送参数
+                param['filename']  = file_name;
+                param['current_dir'] = '{{ current_dir }}';
+            $.get(url, param, function(sharedInfo) {
+                console.log(sharedInfo)
+                  $("#clipboard-text").val("http://storage.thucloud.com:7070#?code="+sharedInfo)
+              });
+        }
         function batch_download(){
             var all_files = '';
              $(":checkbox:checked").each(function(){
@@ -357,9 +387,6 @@
                   location.href = '/media/buffer/batched/'+dom;
               });
         }
-
-
-
     </script>
 
 {%endblock%}
