@@ -74,6 +74,12 @@ def filelist(request):
 
         for f in tuple[1]:
             if f.has_key('bytes'):
+
+                fname = f['name'].split('/')[-1]
+                fname = fname.replace('/','')
+                if fname == '':
+                    continue
+
                 this_dir = './'
                 fileType = 'file'
                 filesize = int(f['bytes'])
@@ -88,10 +94,6 @@ def filelist(request):
                 last_modified = pattern.sub('',last_modified)
                 last_modified = last_modified.replace('T',' ')
                 icon = 'text-icon icon'
-                fname = f['name'].split('/')[-1]
-                fname = fname.replace('/','')
-                if fname == '':
-                    continue
 
             else:
                 icon = 'folder-icon icon'
