@@ -50,8 +50,10 @@ class Swift:
                         i4Maniputate["name"]=prefix+obj["Key"]
                         forRet.append(i4Maniputate)
                 forRet.append({"name":prefix, "bytes": 0})
+                print forRet
                 return (r.headers, forRet)
             except:
+                print forRet
                 return (r.headers, [])
         except:
             return None
