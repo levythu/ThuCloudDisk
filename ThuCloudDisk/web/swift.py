@@ -27,6 +27,7 @@ class Swift:
     # if the path (not the container) does not exist, returns an empty list
 
     def list_container(self,container_name,prefix=None,delimiter=None):
+        print (container_name,prefix,delimiter)
         PREFIX=u"fmap-file-"
         try:
             if (prefix==None):
