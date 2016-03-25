@@ -1,0 +1,11 @@
+- [x] Modifiy list_container()
+    - [ ] Santinize base path
+    - [ ] When listing, hide folder which started with "." except ".." and "."
+- [x] Modify put_container()
+- [x] Modify get_object()
+    - [ ] Not used. Currently discard it. So reconstruct it.
+- [x] Modify delete_folder()
+- [ ] Modify get_object_to_file()
+- [ ] Modify put_object_of_foler()
+- [ ] Modify put_object_from_file()
+- [x] Modify delete_object()

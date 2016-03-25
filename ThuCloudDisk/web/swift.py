@@ -60,24 +60,19 @@ class Swift:
             return None
 
     def put_container(self,container_name):
-        if(self.list_container(container_name) == None):
-            #headers={"X-Container-Meta-Access-Control-Allow-Origin":"http://thucloud.com",
-                     #"Access-Control-Allow-Methods": "HEAD, GET, PUT, POST, COPY, OPTIONS, DELETE"}
-            client.put_container(self.storage_url,self.token,container_name,http_conn=self.http_conn)
+        r=requests.post(u"http://"+SH2_API_ADDR+u"/cn/"+container_name)
+        if (r.status_code==201):
             return True
         return False
 
+    # [l TODO] Implement it.
     def get_object(self,container,object):
-        try:
-            return client.get_object(self.storage_url,self.token,container,object,http_conn = self.http_conn)
-        except:
-            return None
+        raise Exception("NOT IMPLEMENTED")
+
     def delete_folder(self,container,prefix):
-        print 'prefix',prefix
-        all_related_objects = client.get_container(self.storage_url,self.token,container,prefix=prefix,http_conn=self.http_conn)
-        for o in all_related_objects[1]:
-            self.delete_object(container,prefix='',name=o['name'])
+        r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container_name+u"/"+prefix)
         return False
+
     def get_object_to_file(self,container,userpath,filename):
         filepath = os.path.join(LOCAL_BUFFER_PATH,userpath)
         filepath = filepath + filename
@@ -118,9 +113,8 @@ class Swift:
 
     def delete_object(self, container, prefix, name):
         try:
-            object_name = prefix + name
-    	    client.delete_object(self.storage_url, self.token, container, object_name)
-	    return True
+            r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container_name+u"/"+prefix+name)
+	        return True
         except:
             return False
 
