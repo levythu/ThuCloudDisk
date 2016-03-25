@@ -5,7 +5,7 @@ import requests
 import magic
 import json
 
-SH2_API_ADDR=u"101.5.240.111:9144"
+SH2_API_ADDR=u"59.66.137.32:9144"
 class Swift:
     def __init__(self):
         self.host = SWIFT_HOST
