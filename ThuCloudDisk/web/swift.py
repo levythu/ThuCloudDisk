@@ -22,7 +22,7 @@ class Swift:
     def list_container(self,container_name,prefix=None,delimiter=None):
         try:
             print "==================================================="
-            print container_name, prefix, delimiter
+            print (container_name, prefix, delimiter)
             ret=client.get_container(self.storage_url,self.token,container_name,prefix=prefix,delimiter=delimiter,http_conn=self.http_conn)
             print ret
             return ret
