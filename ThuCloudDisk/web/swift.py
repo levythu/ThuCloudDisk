@@ -45,7 +45,7 @@ class Swift:
                         i4Maniputate={}
                         for k in objVal:
                             if (k.startswith(PREFIX)):
-                                i4Maniputate[(k[len(PREFIX):]).replace(u"-", u"_")]=objVal[v]
+                                i4Maniputate[(k[len(PREFIX):]).replace(u"-", u"_")]=objVal[k]
                         i4Maniputate["bytes"]=int(i4Maniputate["content_length"])
                         i4Maniputate["name"]=prefix+obj["Key"]
                         forRet.append(i4Maniputate)
