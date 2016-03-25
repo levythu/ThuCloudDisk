@@ -16,11 +16,16 @@ class Swift:
         self.http_conn = client.http_connection(self.storage_url)
         self.token = auth[1]
 
+    # If the container does not exist, return None
+    # otherwise, return Tuple: /*Format needs specified.*/
 
     def list_container(self,container_name,prefix=None,delimiter=None):
-
         try:
-            return client.get_container(self.storage_url,self.token,container_name,prefix=prefix,delimiter=delimiter,http_conn=self.http_conn)
+            print "==================================================="
+            print container_name, prefix, delimiter
+            ret=client.get_container(self.storage_url,self.token,container_name,prefix=prefix,delimiter=delimiter,http_conn=self.http_conn)
+            print ret
+            return ret
 
         except:
             return None
@@ -81,7 +86,7 @@ class Swift:
             return True
         #except:
         #    return False
-    
+
     def delete_object(self, container, prefix, name):
         try:
             object_name = prefix + name
