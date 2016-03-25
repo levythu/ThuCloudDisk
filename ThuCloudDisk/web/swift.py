@@ -3,8 +3,9 @@ from ThuCloudDisk.settings import *
 import os
 import requests
 import magic
+import json
 
-SH2_API_ADDR="101.5.240.111:9144"
+SH2_API_ADDR=u"101.5.240.111:9144"
 class Swift:
     def __init__(self):
         self.host = SWIFT_HOST
@@ -19,25 +20,39 @@ class Swift:
         self.http_conn = client.http_connection(self.storage_url)
         self.token = auth[1]
 
-    # If the container does not exist, return None
-    # otherwise, return Tuple: /*Format needs specified.*/
+    # If the container does not exist, return None: however, the function will almost never returns None [l TODO]
+    # otherwise, return Tuple: (httpHeader, [object List]); and the header is currently nothing
+        # the returned obj list will have the folder itself in it.
+        # all the file names are their full path
+    # if the path (not the container) does not exist, returns an empty list
 
     def list_container(self,container_name,prefix=None,delimiter=None):
+        PREFIX=u"fmap-file-"
         try:
             if (prefix==None):
-                prefix=""
-            prefix="/"+prefix
-            requests.get("http://"+SH2_API_ADDR+"/fs/"+container_name+"")
-
-        except:
-            return None
-        try:
-            print "==================================================="
-            print container_name, prefix, delimiter
-            ret=client.get_container(self.storage_url,self.token,container_name,prefix=prefix,delimiter=delimiter,http_conn=self.http_conn)
-            print ret
-            return ret
-
+                prefix=u""
+            r=requests.get(u"http://"+SH2_API_ADDR+u"/fs/"+container_name+u"/"+prefix)
+            forRet=[]
+            if (r.status_code!=200):
+                return (r.headers, forRet)
+            result=r.json()
+            try:
+                for obj in result:
+                    objVal=json.loads(obj["Val"])
+                    if (objVal["type"]=="dir"):
+                        forRet.append({"subdir": prefix+obj["Key"]+u"/"})
+                    else:
+                        i4Maniputate={}
+                        for k in objVal:
+                            if (k.startswith(PREFIX)):
+                                i4Maniputate[k[len(PREFIX):]]=objVal[v]
+                        i4Maniputate["bytes"]=int(i4Maniputate["content-length"])
+                        i4Maniputate["name"]=prefix+obj["Key"]
+                        forRet.append(i4Maniputate)
+                forRet.append({"name":prefix, "bytes": 0})
+                return (r.headers, forRet)
+            except:
+                return (r.headers, [])
         except:
             return None
 
