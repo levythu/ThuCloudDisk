@@ -65,7 +65,7 @@ def filelist(request):
         if prefix == '':
             prefix = None
         else:
-            prefix = prefix.replace('./','')
+            prefix = prefix
 
         tuple =  swift.list_container(user.email,prefix=prefix,delimiter='/');
         if tuple == None:

@@ -44,7 +44,7 @@ def handle_uploaded_file(email,current_dir,f):
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
-        prefix = current_dir.replace('./','')
+        prefix = current_dir
         swift.put_object_from_file(container = email,prefix = prefix,filepath = file_path)
     return HttpResponseRedirect('/home/files')
 @csrf_protect
@@ -91,7 +91,7 @@ def download_file(request):
     f = open(file_path)
     response = HttpResponse(FileWrapper(f),content_type=content_type)
     response['Content-encoding'] = encoding
-    response['Content-Length'] = os.path.getsize(file_path) 
+    response['Content-Length'] = os.path.getsize(file_path)
 
     if u'WebKit' in request.META['HTTP_USER_AGENT']:
         filename_header = 'filename="%s"' % file_name.encode('utf-8')
@@ -111,7 +111,7 @@ def delete_file(request):
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
-        prefix = current_dir.replace('./','')
+        prefix = current_dir
     if file_name[-1] == '/':
         swift.delete_folder(request.user.email,file_name)
     else:
@@ -180,7 +180,7 @@ def new_folder(request):
         if settings.USE_SWIFT:
             swift = Swift()
             swift.connect()
-            prefix = current_dir.replace('./','')
+            prefix = current_dir
             swift.put_object_of_foler(container = request.user.email,prefix = prefix,folder=new_folder)
     except:
         print 'fail to create '+new_folder
@@ -201,5 +201,3 @@ def openShare(request):
     o.save()
     print 'result', random_code,secret
     return HttpResponse(random_code)
-
-

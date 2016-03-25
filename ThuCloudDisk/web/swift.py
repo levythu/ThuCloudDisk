@@ -82,7 +82,7 @@ class Swift:
         filepath = os.path.join(LOCAL_BUFFER_PATH,userpath)
         filepath = filepath + filename
         GetBufferSize = 1024*1024*10
-        prefix = userpath.replace('./','')
+        prefix = userpath
         objectName = prefix + filename
         try:
             res = client.get_object(self.storage_url,self.token,container,objectName)
