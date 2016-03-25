@@ -1,7 +1,10 @@
 from swiftclient import client
 from ThuCloudDisk.settings import *
 import os
+import requests
 import magic
+
+SH2_API_ADDR="101.5.240.111:9144"
 class Swift:
     def __init__(self):
         self.host = SWIFT_HOST
@@ -20,6 +23,14 @@ class Swift:
     # otherwise, return Tuple: /*Format needs specified.*/
 
     def list_container(self,container_name,prefix=None,delimiter=None):
+        try:
+            if (prefix==None):
+                prefix=""
+            prefix="/"+prefix
+            requests.get("http://"+SH2_API_ADDR+"/fs/"+container_name+"")
+
+        except:
+            return None
         try:
             print "==================================================="
             print container_name, prefix, delimiter
