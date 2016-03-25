@@ -52,8 +52,8 @@ class Swift:
                 forRet.append({"name":prefix, "bytes": 0})
                 print forRet
                 return (r.headers, forRet)
-            except:
-                print forRet
+            except Exception as e:
+                print forRet, e
                 return (r.headers, [])
         except:
             return None
