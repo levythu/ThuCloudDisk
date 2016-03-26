@@ -84,7 +84,7 @@ class Swift:
     def get_object_to_file(self,container,userpath,filename):
         filepath = os.path.join(LOCAL_BUFFER_PATH,userpath)
         filepath = os.path.join(filepath, container)
-        filepath = filepath + filename
+        filepath = os.path.join(filepath, filename)
         prefix = userpath
         objectName = prefix + filename
         try:
