@@ -124,7 +124,7 @@ class Swift:
     def delete_object(self, container, prefix, name):
         try:
             r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container_name+u"/"+prefix+name)
-	        return True
+            return True
         except:
             return False
 
