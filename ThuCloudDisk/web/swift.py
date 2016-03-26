@@ -83,6 +83,7 @@ class Swift:
 
     def get_object_to_file(self,container,userpath,filename):
         filepath = os.path.join(LOCAL_BUFFER_PATH,userpath)
+        filepath = os.path.join(filepath, container)
         filepath = filepath + filename
         prefix = userpath
         objectName = prefix + filename
@@ -129,13 +130,4 @@ class Swift:
             return False
 
 if __name__ == '__main__':
-    #def get_new_file_path(container,object):
-    swift = Swift();
-    swift.connect();
-    print swift.list_container('test@thucloud.com');
-    #swift.put_container('demo-container1');
-    # print swift.list_container('xiaoh16@gmail.com');
-    #print swift.put_container('ThuCloudDisk-container');
-    #swift.put_object_from_file('ThuCloudDisk-container',prefix='',filepath='/home/chengls10/Desktop/2')
-    #print swift.get_object_to_file('ThuCloudDisk-container','1.py')
-    #print swift.delete_object('ThuCloudDisk-container','1.py')
+    pass
