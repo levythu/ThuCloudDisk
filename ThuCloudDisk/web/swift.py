@@ -6,6 +6,14 @@ import magic
 import json
 
 SH2_API_ADDR=u"59.66.137.32:9144"
+def read_in_chunks(file_object, chunk_size=1024):
+    """Lazy function (generator) to read a file piece by piece.
+    Default chunk size: 1k."""
+    while True:
+        data = file_object.read(chunk_size)
+        if not data:
+            break
+        yield data
 class Swift:
     def __init__(self):
         self.host = SWIFT_HOST
@@ -70,46 +78,48 @@ class Swift:
         raise Exception("NOT IMPLEMENTED")
 
     def delete_folder(self,container,prefix):
-        r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container_name+u"/"+prefix)
+        r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container+u"/"+prefix)
         return False
 
     def get_object_to_file(self,container,userpath,filename):
         filepath = os.path.join(LOCAL_BUFFER_PATH,userpath)
         filepath = filepath + filename
-        GetBufferSize = 1024*1024*10
         prefix = userpath
         objectName = prefix + filename
         try:
-            res = client.get_object(self.storage_url,self.token,container,objectName)
-            fileSize = res[0]['content-length']
-            fileDate = res[0]['last-modified']
-            filename = filename
-            data = res[1]
-            f = file(filepath, 'wb')
-            f.write(data)
-            f.close()
+            r=requests.get(u"http://"+SH2_API_ADDR+u"/io/"+container+u"/"+objectName, stream=True)
+            if (r.status_code!=200):
+                return False
+            header=r.headers
+            fileSize = header['ori-content-length']
+            fileDate = header['ori-last-modified']
+            chunk_size=1*1024*1024  # 1MB
+            with open(filepath, 'wb') as fd:
+                for chunk in r.iter_content(chunk_size):
+                    fd.write(chunk)
+                fd.close()
+
             return fileSize, fileDate, filepath, filename
         except:
             return False
 
     def put_object_of_foler(self,container,prefix,folder):
-        folder = prefix + folder
-        client.put_object(self.storage_url,self.token,container,folder+'/')
-        return True
-    def put_object_from_file(self,container,prefix,filepath):
-        if True:
-            content_length = os.path.getsize(filepath);
-
-            content_type = magic.from_file(filepath,mime=True);
-            strlist = filepath.split('/')
-            for value in strlist:
-                object = value
-            object = prefix+object
-            fp = open(filepath,'rb')
-            client.put_object(self.storage_url,self.token,container,object,fp,content_length=content_length,content_type=content_type)
+        r=requests.post(u"http://"+SH2_API_ADDR+u"/fs/"+container+u"/"+prefix+folder)
+        if (r.status_code==201 or r.status_code==202):
             return True
-        #except:
-        #    return False
+        return False
+
+    def put_object_from_file(self,container,prefix,filepath):
+        try:
+            content_type = magic.from_file(filepath,mime=True);
+            fp = open(filepath,'rb')
+            filename=prefix+(filepath.split("/"))[-1]
+            r=requests.put(u"http://"+SH2_API_ADDR+u"/io/"+container+u"/"+filename, data=read_in_chunks(fp), headers={"content-type": content_type})
+            return True
+            fp.close()
+        except Exception as e:
+            print "Exception @ put_object_from_file:", e
+            return False
 
     def delete_object(self, container, prefix, name):
         try:
