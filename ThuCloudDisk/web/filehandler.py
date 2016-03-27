@@ -53,6 +53,8 @@ def uploadhandler(request):
         current_dir= request.POST['current_dir']
     else:
         current_dir= ''
+    current_dir=sanitize(current_dir)
+
     file = request.FILES['file']
     handle_uploaded_file(request.user.email,current_dir,file)
 
@@ -64,6 +66,8 @@ def uploadfile(request):
        current_dir= request.GET['current_dir']
     else:
         current_dir= ''
+    current_dir=sanitize(current_dir)
+
     file = request.FILES['myfile']
     return_data = [file.__str__()]
     handle_uploaded_file(request.user.email,current_dir,file)
@@ -74,6 +78,8 @@ def download_file(request):
     email = request.user.email
     file_name = request.GET['file_name']
     current_dir = request.GET['current_dir']
+    current_dir=sanitize(current_dir)
+
     file_path = os.path.join(settings.LOCAL_BUFFER_PATH,email,current_dir,file_name)
     file_path = file_path.encode('utf-8')
     if not os.path.exists(file_path):
@@ -108,6 +114,8 @@ import shutil
 def delete_file(request):
     file_name = request.POST['file_name']
     current_dir = request.POST['current_dir']
+    current_dir=sanitize(current_dir)
+
     if settings.USE_SWIFT:
         swift = Swift()
         swift.connect()
@@ -136,6 +144,8 @@ def rename_file(request):
         current_dir= request.GET['current_dir']
     else:
         current_dir= ''
+    current_dir=sanitize(current_dir)
+
     #todo swfit rename
     try:
         buffer_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,old_name)
@@ -149,6 +159,8 @@ import zipfile
 def batch_download(request):
     files = request.GET['files']
     current_dir = request.GET['current_dir']
+    current_dir=sanitize(current_dir)
+
     email = request.user.email
     #file_name = request.GET['file_name']
     file_list = files.split('#')
@@ -173,6 +185,8 @@ def batch_download(request):
 def new_folder(request):
     new_folder = request.GET['new_folder']
     current_dir = request.GET['current_dir']
+    current_dir=sanitize(current_dir)
+
     folder_path = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,new_folder)
     folder_path = folder_path.encode('utf-8')
     try:
@@ -191,6 +205,7 @@ import hashlib
 def openShare(request):
     filename = request.GET['filename']
     current_dir = request.GET['current_dir']
+    current_dir=sanitize(current_dir)
 
     filepath = os.path.join(settings.LOCAL_BUFFER_PATH,request.user.email,current_dir,filename)
     filepath = filepath.encode('utf-8')

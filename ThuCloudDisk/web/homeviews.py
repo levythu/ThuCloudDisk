@@ -10,6 +10,7 @@ from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from ThuCloudDisk import settings
+from web.utilities import sanitize
 if settings.USE_SWIFT:
     from web.swift import *
 import os
@@ -31,6 +32,8 @@ def files(request):
         current_dir= request.GET['current_dir']
     else:
         current_dir= ''
+    current_dir=sanitize(current_dir)
+
     if request.GET.has_key('order_by'):
         order_by = request.GET['order_by']
     if request.GET.has_key('sort_method'):
@@ -57,6 +60,7 @@ def filelist(request):
         current_dir= request.GET['current_dir']
     else:
         current_dir= ''
+    current_dir=sanitize(current_dir)
 
     if settings.USE_SWIFT:
         swift = Swift()
