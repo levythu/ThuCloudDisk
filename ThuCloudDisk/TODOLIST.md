@@ -1,7 +1,7 @@
 - [x] Modifiy list_container()
     - [ ] Santinize base path
     - [x] When listing, hide folder which started with "." except ".." and "."
-    - [ ] Sort the results 
+    - [x] Sort the results 
 - [x] Modify put_container()
 - [x] Modify get_object()
     - [ ] Not used. Currently discard it. So reconstruct it.

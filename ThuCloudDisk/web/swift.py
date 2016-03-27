@@ -16,17 +16,11 @@ def read_in_chunks(file_object, chunk_size=1024):
         yield data
 class Swift:
     def __init__(self):
-        self.host = SWIFT_HOST
-        self.user_name = SWIFT_USER
-        self.user_pass = SWIFT_SECRET
-        self.authurl ='http://'+ self.host +'/v2.0'
-        self.tenant = SWIFT_TENANT
+        pass
 
+    # @ Decprecated
     def connect(self):
-        auth = client.get_auth(self.authurl,self.user_name,self.user_pass,tenant_name=self.tenant,auth_version='2')
-        self.storage_url = auth[0]
-        self.http_conn = client.http_connection(self.storage_url)
-        self.token = auth[1]
+        pass
 
     # If the container does not exist, return None: however, the function will almost never returns None [l TODO]
     # otherwise, return Tuple: (httpHeader, [object List]); and the header is currently nothing
