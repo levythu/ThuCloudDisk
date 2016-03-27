@@ -1,6 +1,7 @@
 - [x] Modifiy list_container()
     - [ ] Santinize base path
-    - [ ] When listing, hide folder which started with "." except ".." and "."
+    - [x] When listing, hide folder which started with "." except ".." and "."
+    - [ ] Sort the results 
 - [x] Modify put_container()
 - [x] Modify get_object()
     - [ ] Not used. Currently discard it. So reconstruct it.
@@ -9,5 +10,5 @@
 - [x] Modify put_object_of_foler()
 - [x] Modify put_object_from_file()
 - [x] Modify delete_object()
-    - [ ] Fix removing excepttion
+    - [x] Fix removing exception
 - [ ] Correct Batch download

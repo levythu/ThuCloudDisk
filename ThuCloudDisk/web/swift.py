@@ -62,7 +62,7 @@ class Swift:
                         i4Maniputate["name"]=prefix+obj["Key"]
                         forRet.append(i4Maniputate)
                 forRet.append({"name":prefix, "bytes": 0})
-                return (r.headers, forRet)
+                return (r.headers, sorted(forRet, key=lambda x: x["key"]))
             except Exception as e:
                 print forRet, e
                 return (r.headers, [])
@@ -80,7 +80,6 @@ class Swift:
         raise Exception("NOT IMPLEMENTED")
 
     def delete_folder(self,container,prefix):
-        print "a trial to delete folder", (container,prefix)
         r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container+u"/"+prefix)
         return False
 
@@ -126,7 +125,6 @@ class Swift:
             return False
 
     def delete_object(self, container, prefix, name):
-        print "a trial to delete object", (container, prefix, name)
         try:
             r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container+u"/"+prefix+name)
             return True
