@@ -10,7 +10,7 @@ from django.shortcuts import render_to_response
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.decorators import login_required
 from ThuCloudDisk import settings
-from web.utilities import sanitize setClear
+from web.utilities import sanitize, setClear
 if settings.USE_SWIFT:
     from web.swift import *
 import os
