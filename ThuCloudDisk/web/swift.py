@@ -80,7 +80,7 @@ class Swift:
         raise Exception("NOT IMPLEMENTED")
 
     def delete_folder(self,container,prefix):
-        print "a trial to delete folder"
+        print "a trial to delete folder", (container,prefix)
         r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container+u"/"+prefix)
         return False
 
@@ -126,9 +126,9 @@ class Swift:
             return False
 
     def delete_object(self, container, prefix, name):
-        print "a trial to delete object"
+        print "a trial to delete object", (container, prefix, name)
         try:
-            r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container_name+u"/"+prefix+name)
+            r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container+u"/"+prefix+name)
             return True
         except:
             return False
