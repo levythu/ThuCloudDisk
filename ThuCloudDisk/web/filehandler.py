@@ -113,7 +113,7 @@ def delete_file(request):
         swift.connect()
         prefix = current_dir
     if file_name[-1] == '/':
-        swift.delete_folder(request.user.email,file_name)
+        swift.delete_folder(request.user.email,prefix+file_name)
     else:
         swift.delete_object(request.user.email,prefix,file_name)
     try:
