@@ -5,7 +5,7 @@ import requests
 import magic
 import json
 
-SH2_API_ADDR=u"101.5.241.100:9144"
+SH2_API_ADDR=u"58.205.208.81:9144"
 def read_in_chunks(file_object, chunk_size=1024):
     """Lazy function (generator) to read a file piece by piece.
     Default chunk size: 1k."""

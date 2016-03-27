@@ -9,3 +9,4 @@
 - [x] Modify put_object_of_foler()
 - [x] Modify put_object_from_file()
 - [x] Modify delete_object()
+- [ ] Correct Batch download
