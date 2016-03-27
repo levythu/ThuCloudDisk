@@ -9,4 +9,5 @@
 - [x] Modify put_object_of_foler()
 - [x] Modify put_object_from_file()
 - [x] Modify delete_object()
+    - [ ] Fix removing excepttion
 - [ ] Correct Batch download

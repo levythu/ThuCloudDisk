@@ -35,7 +35,6 @@ class Swift:
     # if the path (not the container) does not exist, returns an empty list
 
     def list_container(self,container_name,prefix=None,delimiter=None):
-        print (container_name,prefix,delimiter)
         PREFIX=u"fmap-file-"
         try:
             if (prefix==None):
@@ -48,6 +47,10 @@ class Swift:
             try:
                 for obj in result:
                     objVal=json.loads(obj["Val"])
+                    # Ignore files that starts with a dot
+                    tp=obj["Key"]
+                    if (tp.startswith(".") and tp!="." and tp!=".."):
+                        continue
                     if (objVal["type"]=="dir"):
                         forRet.append({"subdir": prefix+obj["Key"]+u"/"})
                     else:
@@ -59,7 +62,6 @@ class Swift:
                         i4Maniputate["name"]=prefix+obj["Key"]
                         forRet.append(i4Maniputate)
                 forRet.append({"name":prefix, "bytes": 0})
-                print forRet
                 return (r.headers, forRet)
             except Exception as e:
                 print forRet, e
@@ -78,6 +80,7 @@ class Swift:
         raise Exception("NOT IMPLEMENTED")
 
     def delete_folder(self,container,prefix):
+        print "a trial to delete folder"
         r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container+u"/"+prefix)
         return False
 
@@ -123,6 +126,7 @@ class Swift:
             return False
 
     def delete_object(self, container, prefix, name):
+        print "a trial to delete object"
         try:
             r=requests.delete(u"http://"+SH2_API_ADDR+u"/fs/"+container_name+u"/"+prefix+name)
             return True
