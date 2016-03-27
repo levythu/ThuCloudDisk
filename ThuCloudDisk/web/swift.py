@@ -62,7 +62,7 @@ class Swift:
                         i4Maniputate["name"]=prefix+obj["Key"]
                         forRet.append(i4Maniputate)
                 forRet.append({"name":prefix, "bytes": 0})
-                return (r.headers, sorted(forRet, key=lambda x: x["name"]))
+                return (r.headers, sorted(forRet, key=lambda x: x["name"] if "name" in x else x["subdir"] if "subdir" in x else ""))
             except Exception as e:
                 print forRet, e
                 return (r.headers, [])
