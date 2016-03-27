@@ -49,7 +49,10 @@ def files(request):
         for level in filelevel_list:
             current_level += level + '/'
             final_filelevel_list.append({'href':current_level,'name':level})
-    return render(request,'home/files.html',locals(), context={'current_dir':current_dir})
+
+    lc=locals()
+    print lc
+    return render(request,'home/files.html', lc)
     #return render(request,'basic-plus.html')
 def filelist(request):
     RenameAllowed = False
@@ -184,5 +187,6 @@ def filelist(request):
             if sort_method == 'desc':
                 file_list = reversed(file_list)
             sort = 'desc'
-
-    return render(request,'home/fileList.html',locals(), context={'current_dir':current_dir})
+    lc=locals()
+    print lc
+    return render(request,'home/fileList.html', lc)
