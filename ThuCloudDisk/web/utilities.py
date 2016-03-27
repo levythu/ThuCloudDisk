@@ -18,6 +18,11 @@ def sanitize(original, sep="/"):
 
     return res
 
+def setClear(original, sep="/"):
+    if original==sep:
+        return ""
+    return original
+
 if __name__ == '__main__':
     print sanitize("")
     print sanitize("/")
